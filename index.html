@@ -34,17 +34,15 @@ button[type="submit"]{width:100%;padding:16px;margin-top:24px;font-size:1.2rem;f
 .loading{pointer-events:none;opacity:0.85;}
 .loading::after{content:'';display:inline-block;width:1.1em;height:1.1em;margin-left:0.6em;vertical-align:middle;border:3px solid white;border-top-color:transparent;border-radius:50%;animation:spin 1s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
-/* Modal */
 #reviewModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center;font-family:'Tajawal',sans-serif;}
 #reviewModal .modal-content{background:white;padding:24px;border-radius:16px;max-width:90%;max-height:85vh;overflow-y:auto;box-shadow:0 10px 30px rgba(0,0,0,0.25);direction:rtl;text-align:right;}
 #reviewModal h3{color:var(--turquoise-dark);margin-bottom:16px;font-size:1.4rem;text-align:center;}
 #reviewModal pre{background:#f8f9fa;padding:16px;border-radius:10px;font-family:'Tajawal',monospace;white-space:pre-wrap;word-break:break-word;font-size:1.05rem;line-height:1.6;margin:16px 0;border:1px solid #e0e0e0;}
+#reviewModal .question{text-align:center;color:#c62828;font-weight:700;font-size:1.15rem;margin:20px 0;}
 #reviewModal .buttons{display:flex;gap:16px;justify-content:center;margin-top:24px;flex-wrap:wrap;}
 #reviewModal button{padding:12px 32px;border:none;border-radius:10px;font-size:1.1rem;cursor:pointer;min-width:140px;}
 #reviewModal .confirm-btn{background:var(--turquoise-medium);color:white;}
 #reviewModal .cancel-btn{background:#e0e0e0;color:#333;}
-#reviewModal .whatsapp-btn{background:#25D366;color:white;}
-/* Products Grid */
 .products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:18px;margin:20px 0;padding:10px;}
 .product-card{background:white;border-radius:16px;overflow:hidden;box-shadow:0 6px 20px rgba(0,109,119,.15);text-align:center;transition:transform 0.2s;}
 .product-card:hover{transform:translateY(-4px);}
@@ -53,12 +51,10 @@ button[type="submit"]{width:100%;padding:16px;margin-top:24px;font-size:1.2rem;f
 .product-info h4{font-size:0.95rem;margin:0 0 4px 0;color:var(--turquoise-dark);font-weight:600;}
 .product-info p{font-size:0.9rem;color:#555;margin:0;}
 .product-card input{width:70px;height:48px;margin:10px auto;font-size:1.4rem;text-align:center;border:2px solid var(--turquoise-medium);border-radius:10px;}
-/* Stock Bar Styles - حجم محسّن للظهور */
 .stock-info{margin:14px auto 10px;text-align:center;font-size:0.95rem;color:#333;line-height:1.4;}
 .stock-bar-container{width:92%;height:16px;background:#e8ecef;border-radius:8px;overflow:hidden;margin:8px auto;box-shadow:0 2px 4px rgba(0,0,0,0.1);}
 .stock-bar{height:100%;transition:width 0.6s ease-in-out;min-width:8px;}
 .stock-text{font-weight:600;}
-/* Responsive */
 @media (max-width:580px){
   .products-grid{gap:16px;}
   .product-card img{height:150px;}
@@ -290,14 +286,13 @@ button[type="submit"]{width:100%;padding:16px;margin-top:24px;font-size:1.2rem;f
     <div class="note">في حال وجود استفسار، التواصل عبر واتس: <a href="https://wa.me/905345758221" target="_blank" rel="noopener">00905345758221</a> 💬</div>
   </form>
 
-  <!-- Modal المراجعة -->
   <div id="reviewModal">
     <div class="modal-content">
       <h3>مراجعة الطلب قبل الإرسال</h3>
       <pre id="reviewText"></pre>
+      <div class="question">هل الكمية صحيحة وكاملة؟</div>
       <div class="buttons">
-        <button class="confirm-btn" id="confirmSend">نعم، أرسل الطلب</button>
-        <button class="whatsapp-btn" id="copyToWhatsApp">نسخ الطلب للواتساب</button>
+        <button class="confirm-btn" id="confirmSend">نعم، أرسل</button>
         <button class="cancel-btn" id="cancelReview">راجع مرة أخرى</button>
       </div>
     </div>
@@ -305,33 +300,22 @@ button[type="submit"]{width:100%;padding:16px;margin-top:24px;font-size:1.2rem;f
 </div>
 
 <script>
-// رابط الـ Web App
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwmkS61TA56ODMQxvRASxW4b_3feZssp6NfTuZdaiJzs4A0T7jV3oZOeKB8thgjSNKwuA/exec";
+const WHATSAPP_NUMBER = "905522221237";
 
 let stockData = {};
 
 async function loadStock() {
   try {
-    const response = await fetch(SCRIPT_URL, {
-      method: "GET",
-      mode: "cors",
-      cache: "no-cache"
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const data = await response.json();
-
-    if (data.success && data.stock) {
-      stockData = data.stock;
+    const r = await fetch(SCRIPT_URL, {method:"GET", mode:"cors", cache:"no-cache"});
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    const d = await r.json();
+    if (d.success && d.stock) {
+      stockData = d.stock;
       updateStockBars();
-    } else {
-      console.warn("مشكلة في بيانات المخزون:", data);
     }
-  } catch (err) {
-    console.error("فشل جلب المخزون:", err);
+  } catch(e) {
+    console.error("فشل تحميل المخزون", e);
   }
 }
 
@@ -339,116 +323,165 @@ function updateStockBars() {
   document.querySelectorAll('.stock-info').forEach(el => {
     const code = el.dataset.code;
     if (!code) return;
+    const item = stockData[code] || {stock:0, target:200};
+    const cur = Number(item.stock) || 0;
+    const tgt = Number(item.target) || 200;
+    const pct = Math.min(Math.max(cur / tgt * 100, 0), 100);
 
-    const item = stockData[code] || { stock: 0, target: 200 };
-    const current = Number(item.stock) || 0;
-    const target = Number(item.target) || 200;
-    const percent = Math.min(Math.max((current / target) * 100, 0), 100);
-
-    let color, emoji, text;
-    if      (current >= target * 0.50) { color='#4CAF50'; emoji='🟢'; text='متوفر بكثرة'; }
-    else if (current >= target * 0.15) { color='#FF9800'; emoji='🟠'; text='كمية متوسطة'; }
-    else if (current > 0)              { color='#F44336'; emoji='🔴'; text='قليل جدًا';    }
-    else                               { color='#9E9E9E'; emoji='⚪'; text='نفد حاليًا';    }
+    let color, emoji, txt;
+    if      (cur >= tgt * 0.5)  { color='#4CAF50'; emoji='🟢'; txt='متوفر بكثرة'; }
+    else if (cur >= tgt * 0.15) { color='#FF9800'; emoji='🟠'; txt='كمية متوسطة'; }
+    else if (cur > 0)           { color='#F44336'; emoji='🔴'; txt='قليل جدًا';    }
+    else                        { color='#9E9E9E'; emoji='⚪'; txt='نفد حاليًا';    }
 
     el.innerHTML = `
       <div class="stock-bar-container">
-        <div class="stock-bar" style="width: ${percent}%; background-color: ${color};"></div>
+        <div class="stock-bar" style="width:${pct}%;background-color:${color}"></div>
       </div>
-      <span class="stock-text">${emoji} ${current} / ${target} – ${text}</span>
+      <span class="stock-text">${emoji} ${cur} / ${tgt} – ${txt}</span>
     `;
   });
 }
 
-function getSelectedItems() {
-  let summary = "";
-  let index = 1;
-  let hasItems = false;
+function getReviewText() {
+  let txt = "";
+  let i = 1;
+  let count = 0;
   document.querySelectorAll('.product-card').forEach(card => {
-    const input = card.querySelector('input[type="number"]');
-    const qty = parseInt(input.value) || 0;
-    if (qty > 0) {
-      hasItems = true;
-      const name = card.querySelector('h4').textContent.trim();
+    const q = Number(card.querySelector('input').value) || 0;
+    if (q > 0) {
+      count++;
+      const name   = card.querySelector('h4').textContent.trim();
       const weight = card.querySelector('p').textContent.trim();
-      summary += `${index}. ${name}\n الكمية: ${qty}  الوزن: ${weight}\n\n`;
-      index++;
+      txt += `${i}. ${name}\n   الكمية: ${q}  الوزن: ${weight}\n\n`;
+      i++;
     }
   });
-  if (!hasItems) return "";
-  summary += `إجمالي عدد الأصناف المختارة: ${index - 1}`;
-  return summary;
+  if (count > 0) txt += `إجمالي عدد الأصناف المختارة: ${count}`;
+  return txt;
 }
 
-document.getElementById('orderForm').addEventListener('submit', function(e) {
+function getWhatsAppText() {
+  const now = new Date();
+
+  const days   = ["الأحد","الإثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"];
+  const months = ["كانون الثاني","شباط","آذار","نيسان","أيار","حزيران","تموز","آب","أيلول","تشرين الأول","تشرين الثاني","كانون الأول"];
+
+  const dayName  = days[now.getDay()];
+  const d        = String(now.getDate()).padStart(2,'0');
+  const m        = months[now.getMonth()];
+  const y        = now.getFullYear();
+
+  let h = now.getHours();
+  const min   = String(now.getMinutes()).padStart(2,'0');
+  const ampm  = h >= 12 ? "مساءً" : "صباحاً";
+  h = h % 12 || 12;
+
+  const datetime = `${dayName}, ${d}/${m}/${y} الساعة ${h}:${min} ${ampm}`;
+
+  const gov  = document.querySelector('[name="governorate"]').value.trim();
+  const cust = document.querySelector('[name="customerName"]').value.trim();
+  const note = document.querySelector('[name="notes"]').value.trim() || "لا توجد";
+
+  let items = "";
+  let idx = 1;
+  let count = 0;
+
+  document.querySelectorAll('.product-card').forEach(card => {
+    const q = Number(card.querySelector('input').value) || 0;
+    if (q > 0) {
+      count++;
+      const name   = card.querySelector('h4').textContent.trim();
+      const weight = card.querySelector('p').textContent.trim();
+      items += `${idx}. ${name}\n   ${weight}\n   الكمية: ${q}\n\n`;
+      idx++;
+    }
+  });
+
+  if (count > 0) items += `إجمالي عدد الأصناف المختارة: ${count}`;
+
+  return `🛒 *طلب جديد من نموذج العجمي*
+
+📅 التاريخ والوقت: ${datetime}
+
+📍 المحافظة / المدينة: ${gov}
+
+👤 اسم الزبون: ${cust}
+
+──────────────────────────────
+${items}
+──────────────────────────────
+
+📝 الملاحظات:
+${note}
+
+شكراً لثقتكم 🌟🙏`;
+}
+
+document.getElementById('orderForm').addEventListener('submit', e => {
   e.preventDefault();
-  const form = document.getElementById('orderForm');
-  if (!form.governorate.value.trim() || !form.customerName.value.trim()) {
-    alert("يرجى تعبئة حقلي المحافظة واسم الزبون بشكل صحيح");
+
+  const gov  = document.querySelector('[name="governorate"]').value.trim();
+  const name = document.querySelector('[name="customerName"]').value.trim();
+
+  if (!gov || !name) {
+    alert("يرجى تعبئة المحافظة واسم الزبون");
     return;
   }
-  const summaryText = getSelectedItems();
-  if (!summaryText) {
-    alert("⚠️ يجب اختيار صنف واحد على الأقل ⚠️");
+
+  const txt = getReviewText();
+  if (!txt) {
+    alert("يجب اختيار منتج واحد على الأقل");
     return;
   }
-  const reviewMessage =
-`الطلب يحتوي على ${summaryText.match(/الكمية/g)?.length || 0} صنف/أصناف
-──────────────────────────────
-${summaryText}
-──────────────────────────────
-هل البيانات صحيحة وكاملة؟`;
-  document.getElementById('reviewText').textContent = reviewMessage;
+
+  document.getElementById('reviewText').textContent = txt;
   document.getElementById('reviewModal').style.display = 'flex';
 });
 
 document.getElementById('confirmSend').onclick = function() {
   document.getElementById('reviewModal').style.display = 'none';
-  const submitBtn = document.getElementById('submitBtn');
-  submitBtn.disabled = true;
-  submitBtn.classList.add('loading');
-  submitBtn.textContent = 'جاري إرسال الطلب...';
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.classList.add('loading');
+  btn.textContent = 'جاري إرسال الطلب...';
 
   fetch(SCRIPT_URL, {
-    method: "POST",
+    method: 'POST',
     body: new FormData(document.getElementById('orderForm'))
   })
-  .then(response => {
-    if (!response.ok) throw new Error(`حالة الرد: ${response.status}`);
-    return response.json();
+  .then(r => {
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    return r.json();
   })
   .then(data => {
-    if (data && data.success === true) {
-      alert(`🎉 تم إرسال الطلب بنجاح! 🎉\nرقم الطلب: ${data.orderId}\nشكراً لك`);
+    if (data?.success) {
+      const msg = getWhatsAppText();
+      const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
+      window.open(url, '_blank');
+
+      alert(`تم إرسال الطلب بنجاح!\nرقم الطلب: ${data.orderId || 'غير متوفر'}`);
       document.getElementById('orderForm').reset();
-      loadStock();  // تحديث البارات بعد النقصان
+      loadStock();
     } else {
-      alert("⚠️ " + (data?.message || "حدث خطأ غير متوقع"));
+      alert(data?.message || "حدث خطأ");
     }
   })
   .catch(err => {
-    console.error(err);
-    alert("❌ حدث خطأ أثناء الإرسال:\n" + err.message + "\n\nتواصل واتساب لو استمر الخطأ");
+    alert("حدث خطأ أثناء الإرسال\n" + err.message);
   })
   .finally(() => {
-    submitBtn.disabled = false;
-    submitBtn.classList.remove('loading');
-    submitBtn.textContent = "إرسال الطلب";
+    btn.disabled = false;
+    btn.classList.remove('loading');
+    btn.textContent = 'إرسال الطلب';
   });
 };
 
-document.getElementById('cancelReview').onclick = function() {
+document.getElementById('cancelReview').onclick = () => {
   document.getElementById('reviewModal').style.display = 'none';
 };
 
-document.getElementById('copyToWhatsApp').onclick = function() {
-  const text = document.getElementById('reviewText').textContent;
-  const phone = "905345758221";
-  const waUrl = `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
-  window.open(waUrl, '_blank');
-};
-
-// تحميل المخزون عند فتح الصفحة
 window.addEventListener('DOMContentLoaded', loadStock);
 </script>
 </body>
