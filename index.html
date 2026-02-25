@@ -5,7 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes"/>
 <title>نموذج طلب منتجات العجمي</title>
 <link rel="icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="android-chrome-192x192.png">
+<meta property="og:title" content="نموذج طلب منتجات العجمي">
+<meta property="og:description" content="اطلب منتجات العجمي الأصلية بسهولة">
+<meta property="og:image" content="logo.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="logo.png">
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#006d77">
 
 <style>
@@ -44,11 +53,11 @@ body {
 }
 
 .header { text-align: center; margin-bottom: 28px; }
-.logo-img { max-width: 300px; width: 100%; display: block; margin: 0 auto; }
+.logo-img { max-width: 320px; width: 100%; display: block; margin: auto; }
 
-h2 { text-align: center; color: var(--turquoise-dark); margin-bottom: 28px; font-size: clamp(1.7rem, 5vw, 2.1rem); }
+h2 { text-align: center; color: var(--turquoise-dark); margin-bottom: 28px; font-size: clamp(1.8rem, 5.5vw, 2.2rem); }
 
-.form-group { margin-bottom: 30px; }
+.form-group { margin-bottom: 32px; }
 label { display: block; margin-bottom: 10px; font-weight: 600; font-size: 1.15rem; color: #234; }
 
 input[type="text"],
@@ -63,11 +72,11 @@ textarea {
 }
 
 input[type="number"] {
-  font-size: 1.5rem;
+  font-size: 1.55rem;
   font-weight: 700;
   text-align: center;
   width: 110px;
-  height: 60px;
+  height: 62px;
   margin: 14px auto;
   display: block;
   border: 3px solid var(--turquoise-medium);
@@ -153,7 +162,7 @@ button[type="submit"]:hover { transform: translateY(-2px); }
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* Modals */
+/* Modal base */
 .modal {
   display: none;
   position: fixed;
@@ -241,10 +250,23 @@ button[type="submit"]:hover { transform: translateY(-2px); }
   border-top: 1px solid #ddd;
 }
 
+.note {
+  text-align: center;
+  font-size: 0.98rem;
+  color: #444;
+  margin-top: 20px;
+}
+.note a {
+  color: var(--turquoise-dark);
+  font-weight: 700;
+  text-decoration: none;
+}
+.note a:hover { text-decoration: underline; }
+
 @media (max-width: 580px) {
   .products-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 16px; }
   .product-card img { height: 165px; }
-  input[type="number"] { width: 100px; height: 56px; font-size: 1.45rem; }
+  input[type="number"] { width: 100px; height: 58px; font-size: 1.5rem; }
 }
 </style>
 </head>
@@ -496,43 +518,43 @@ button[type="submit"]:hover { transform: translateY(-2px); }
 
     <div class="form-group">
       <label>ملاحظات</label>
-      <textarea name="notes" rows="4" placeholder="أي تفاصيل إضافية (نوع التغليف، موعد التسليم المفضل، إلخ)"></textarea>
+      <textarea name="notes" rows="4" placeholder="أي تفاصيل إضافية (مثال: نوع التغليف أو وقت التسليم المفضل)"></textarea>
     </div>
 
     <button type="submit" id="submitBtn">إرسال الطلب</button>
 
-    <div style="text-align:center; margin-top:24px; font-size:1rem; color:#334;">
-      استفسار؟ تواصل واتساب: <a href="https://wa.me/905522221247" style="color:var(--turquoise-dark); font-weight:700;">00905522221247</a>
+    <div class="note">
+      في حال وجود استفسار، التواصل عبر واتس: 
+      <a href="https://wa.me/905522221247" target="_blank" rel="noopener">00905522221247</a> 💬
     </div>
 
   </form>
-</div>
 
-
-<!-- Modal مراجعة أولية -->
-<div id="reviewModal" class="modal">
-  <div class="modal-content">
-    <h3>مراجعة الطلب قبل الإرسال</h3>
-    <pre id="reviewText"></pre>
-    <div class="modal-buttons">
-      <button class="modal-btn confirm" id="goToConfirm">نعم، أرسل الطلب</button>
-      <button class="modal-btn cancel" id="cancelReview">راجع مرة أخرى</button>
+  <!-- Modal المراجعة الأولى -->
+  <div id="reviewModal" class="modal">
+    <div class="modal-content">
+      <h3>مراجعة الطلب قبل الإرسال</h3>
+      <pre id="reviewText"></pre>
+      <div class="modal-buttons">
+        <button class="modal-btn confirm" id="goToConfirm">نعم، أرسل الطلب</button>
+        <button class="modal-btn cancel" id="cancelReview">راجع مرة أخرى</button>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- Modal تأكيد - ستايل واتساب -->
-<div id="confirmModal" class="modal">
-  <div class="modal-content">
-    <div class="wa-header">تأكيد الطلب</div>
-    <div class="wa-body" id="waMessage"></div>
-    <div class="wa-footer">
-      <button class="modal-btn confirm" id="confirmSendFinal" style="background:#25D366; color:white; min-width:190px;">
-        إرسال الطلب النهائي
-      </button>
-      <button class="modal-btn cancel" id="backToReview" style="margin-top:14px;">
-        تعديل الطلب
-      </button>
+  <!-- Modal التأكيد - ستايل واتساب -->
+  <div id="confirmModal" class="modal">
+    <div class="modal-content">
+      <div class="wa-header">تأكيد الطلب</div>
+      <div class="wa-body" id="waMessage"></div>
+      <div class="wa-footer">
+        <button class="modal-btn confirm" id="confirmSendFinal" style="background:#25D366; color:white; min-width:190px;">
+          إرسال الطلب النهائي
+        </button>
+        <button class="modal-btn cancel" id="backToReview" style="margin-top:14px;">
+          تعديل الطلب
+        </button>
+      </div>
     </div>
   </div>
 </div>
@@ -542,7 +564,6 @@ function getSelectedItems() {
   let summary = "";
   let index = 1;
   let hasItems = false;
-
   document.querySelectorAll('.product-card').forEach(card => {
     const input = card.querySelector('input[type="number"]');
     const qty = parseInt(input.value) || 0;
@@ -551,12 +572,11 @@ function getSelectedItems() {
       const name = card.querySelector('h4').textContent.trim();
       const weight = card.querySelector('p').textContent.trim();
       summary += `${index}. ${name}`;
-      if (weight) summary += ` (${weight})`;
+      if (weight) summary += `  ${weight}`;
       summary += `\n   الكمية: ${qty}\n\n`;
       index++;
     }
   });
-
   if (!hasItems) return "";
   summary += `إجمالي عدد الأصناف المختارة: ${index - 1}`;
   return summary;
@@ -564,20 +584,18 @@ function getSelectedItems() {
 
 document.getElementById('orderForm').addEventListener('submit', function(e) {
   e.preventDefault();
-
   const form = document.getElementById('orderForm');
   if (!form.governorate.value.trim() || !form.customerName.value.trim()) {
     alert("يرجى تعبئة حقلي المحافظة واسم الزبون بشكل صحيح");
     return;
   }
-
   const summaryText = getSelectedItems();
   if (!summaryText) {
     alert("⚠️ يجب اختيار صنف واحد على الأقل ⚠️");
     return;
   }
 
-  const reviewMessage = 
+  const reviewMessage =
 `الطلب يحتوي على ${summaryText.match(/الكمية/g)?.length || 0} صنف/أصناف
 ──────────────────────────────
 الزبون: ${form.customerName.value.trim()}
@@ -586,7 +604,7 @@ document.getElementById('orderForm').addEventListener('submit', function(e) {
 ${summaryText}
 ──────────────────────────────
 ملاحظات:
-${form.notes.value.trim() || "لا يوجد"}
+${form.notes.value.trim() || "لا توجد ملاحظات"}
 
 هل البيانات صحيحة وكاملة؟`;
 
@@ -597,11 +615,11 @@ ${form.notes.value.trim() || "لا يوجد"}
 document.getElementById('goToConfirm').onclick = function() {
   document.getElementById('reviewModal').style.display = 'none';
 
-  const reviewText = document.getElementById('reviewText').textContent;
+  const text = document.getElementById('reviewText').textContent;
   const waStyle = 
 `🛒 *طلب جديد – العجمي*
 ────────────────────
-${reviewText.replace(/──────────────────────────────/g, '───────────────')}
+${text}
 شكراً لثقتكم 📦💚`;
 
   document.getElementById('waMessage').innerHTML = 
@@ -613,19 +631,22 @@ ${reviewText.replace(/───────────────────�
 document.getElementById('confirmSendFinal').onclick = function() {
   document.getElementById('confirmModal').style.display = 'none';
 
-  const btn = document.getElementById('submitBtn');
-  btn.disabled = true;
-  btn.classList.add('loading');
-  btn.textContent = 'جاري إرسال الطلب...';
+  const submitBtn = document.getElementById('submitBtn');
+  submitBtn.disabled = true;
+  submitBtn.classList.add('loading');
+  submitBtn.textContent = 'جاري إرسال الطلب...';
 
   fetch("https://script.google.com/macros/s/AKfycbwmkS61TA56ODMQxvRASxW4b_3feZssp6NfTuZdaiJzs4A0T7jV3oZOeKB8thgjSNKwuA/exec", {
     method: "POST",
     body: new FormData(document.getElementById('orderForm'))
   })
-  .then(response => response.json())
+  .then(response => {
+    if (!response.ok) throw new Error(`حالة الرد: ${response.status}`);
+    return response.json();
+  })
   .then(data => {
     if (data && data.success === true) {
-      alert(`🎉 تم إرسال الطلب بنجاح! 🎉\nرقم الطلب: ${data.orderId || '—'}\nشكراً لك`);
+      alert(`🎉 تم إرسال الطلب بنجاح! 🎉\nرقم الطلب: ${data.orderId}\nشكراً لك`);
       document.getElementById('orderForm').reset();
     } else {
       alert("⚠️ " + (data?.message || "حدث خطأ غير متوقع"));
@@ -636,9 +657,9 @@ document.getElementById('confirmSendFinal').onclick = function() {
     alert("❌ حدث خطأ أثناء الإرسال:\n" + err.message + "\n\nتواصل واتساب لو استمر الخطأ");
   })
   .finally(() => {
-    btn.disabled = false;
-    btn.classList.remove('loading');
-    btn.textContent = "إرسال الطلب";
+    submitBtn.disabled = false;
+    submitBtn.classList.remove('loading');
+    submitBtn.textContent = "إرسال الطلب";
   });
 };
 
