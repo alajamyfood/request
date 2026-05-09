@@ -5,72 +5,225 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes"/>
 <title>نموذج طلب منتجات العجمي</title>
 <link rel="icon" href="favicon.ico" type="image/x-icon">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="192x192" href="android-chrome-192x192.png">
-<meta property="og:title" content="نموذج طلب منتجات العجمي">
-<meta property="og:description" content="اطلب منتجات العجمي الأصلية بسهولة">
-<meta property="og:image" content="logo.png">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="logo.png">
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#006d77">
+
 <style>
-:root{--turquoise-dark:#006d77;--turquoise-medium:#119da4;--turquoise-light:#83c5be;--turquoise-pale:#e0f7f4;--text-dark:#0d1f1f;--blur-bg:rgba(255,255,255,0.94);--border:#a0d4cf;}
-*{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'Tajawal',sans-serif;background:linear-gradient(to bottom,var(--turquoise-dark),var(--turquoise-pale));background-attachment:fixed;color:var(--text-dark);padding:10px 8px;}
-.container{background:var(--blur-bg);backdrop-filter:blur(12px);border-radius:18px;padding:24px 20px;max-width:800px;margin:20px auto;box-shadow:0 10px 35px rgba(0,109,119,.25);border:1px solid rgba(131,197,190,0.3);}
-.header{text-align:center;margin-bottom:24px;}
-.logo-img{max-width:320px;width:100%;margin:auto;display:block;}
-h2{text-align:center;color:var(--turquoise-dark);margin-bottom:24px;font-size:1.9rem;}
-.form-group{margin-bottom:28px;}
-label{display:block;margin-bottom:10px;font-weight:600;font-size:1.1rem;}
-input,select,textarea{width:100%;padding:14px;border:1px solid var(--border);border-radius:10px;font-size:1.05rem;}
-.note{text-align:center;font-size:.95rem;color:#444;margin-top:16px;}
-.note a{color:var(--turquoise-dark);font-weight:700;text-decoration:none;}
-.note a:hover{text-decoration:underline;}
-button[type="submit"]{width:100%;padding:16px;margin-top:24px;font-size:1.2rem;font-weight:700;background:linear-gradient(90deg,var(--turquoise-medium),var(--turquoise-light));color:#fff;border:none;border-radius:12px;cursor:pointer;}
-.loading{pointer-events:none;opacity:0.85;}
-.loading::after{content:'';display:inline-block;width:1.1em;height:1.1em;margin-left:0.6em;vertical-align:middle;border:3px solid white;border-top-color:transparent;border-radius:50%;animation:spin 1s linear infinite;}
-@keyframes spin{to{transform:rotate(360deg);}}
-#reviewModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center;font-family:'Tajawal',sans-serif;}
-#reviewModal .modal-content{background:white;padding:24px;border-radius:16px;max-width:90%;max-height:85vh;overflow-y:auto;box-shadow:0 10px 30px rgba(0,0,0,0.25);direction:rtl;text-align:right;}
-#reviewModal h3{color:var(--turquoise-dark);margin-bottom:16px;font-size:1.4rem;text-align:center;}
-#reviewModal pre{background:#f8f9fa;padding:16px;border-radius:10px;font-family:'Tajawal',monospace;white-space:pre-wrap;word-break:break-word;font-size:1.05rem;line-height:1.6;margin:16px 0;border:1px solid #e0e0e0;}
-#reviewModal .question{text-align:center;color:#c62828;font-weight:700;font-size:1.15rem;margin:20px 0;}
-#reviewModal .buttons{display:flex;gap:16px;justify-content:center;margin-top:24px;flex-wrap:wrap;}
-#reviewModal button{padding:12px 32px;border:none;border-radius:10px;font-size:1.1rem;cursor:pointer;min-width:140px;}
-#reviewModal .confirm-btn{background:var(--turquoise-medium);color:white;}
-#reviewModal .cancel-btn{background:#e0e0e0;color:#333;}
-.products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:18px;margin:20px 0;padding:10px;}
-.product-card{background:white;border-radius:16px;overflow:hidden;box-shadow:0 6px 20px rgba(0,109,119,.15);text-align:center;transition:transform 0.2s;}
-.product-card:hover{transform:translateY(-4px);}
-.product-card img{width:100%;height:170px;object-fit:cover;border-bottom:3px solid var(--turquoise-medium);}
-.product-info{padding:10px 8px;}
-.product-info h4{font-size:0.95rem;margin:0 0 4px 0;color:var(--turquoise-dark);font-weight:600;}
-.product-info p{font-size:0.9rem;color:#555;margin:0;}
-.product-card input{width:70px;height:48px;margin:10px auto;font-size:1.4rem;text-align:center;border:2px solid var(--turquoise-medium);border-radius:10px;}
-.stock-info{margin:14px auto 10px;text-align:center;font-size:0.95rem;color:#333;line-height:1.4;}
-.stock-bar-container{width:92%;height:16px;background:#e8ecef;border-radius:8px;overflow:hidden;margin:8px auto;box-shadow:0 2px 4px rgba(0,0,0,0.1);}
-.stock-bar{height:100%;transition:width 0.6s ease-in-out;min-width:8px;}
-.stock-text{font-weight:600;}
-@media (max-width:580px){
-  .products-grid{gap:16px;}
-  .product-card img{height:150px;}
-  .stock-info{font-size:0.9rem;}
-  .stock-bar-container{height:12px;}
+:root{
+  --turquoise-dark:#006d77;
+  --turquoise-medium:#119da4;
+  --turquoise-light:#83c5be;
+  --turquoise-pale:#e0f7f4;
+  --text-dark:#0d1f1f;
+  --blur-bg:rgba(255,255,255,0.94);
+  --border:#a0d4cf;
+}
+
+* { box-sizing:border-box; margin:0; padding:0; }
+
+body {
+  font-family:'Tajawal',sans-serif;
+  background:linear-gradient(to bottom,var(--turquoise-dark),var(--turquoise-pale));
+  background-attachment:fixed;
+  color:var(--text-dark);
+  padding:10px 8px;
+}
+
+.container {
+  background:var(--blur-bg);
+  backdrop-filter:blur(12px);
+  border-radius:18px;
+  padding:24px 20px;
+  max-width:850px;
+  margin:20px auto;
+  box-shadow:0 10px 35px rgba(0,109,119,.25);
+  border:1px solid rgba(131,197,190,0.3);
+}
+
+.header { text-align:center; margin-bottom:24px; }
+.logo-img { max-width:320px; width:100%; margin:auto; display:block; }
+
+h2 { text-align:center; color:var(--turquoise-dark); margin-bottom:24px; font-size:1.9rem; }
+
+.form-group { margin-bottom:28px; }
+label { display:block; margin-bottom:10px; font-weight:600; font-size:1.1rem; }
+
+input[type="text"], textarea {
+  width:100%;
+  padding:14px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  font-size:1.05rem;
+}
+
+/* تحسين خانة الكمية */
+.product-card input[type="number"] {
+  width: 82px;
+  height: 48px;
+  margin: 10px auto 12px;
+  display: block;
+  font-size: 1.45rem;
+  font-weight: 700;
+  text-align: center;
+  border: 2.5px solid var(--turquoise-medium);
+  border-radius: 12px;
+  background: white;
+  color: var(--turquoise-dark);
+  -moz-appearance: textfield;
+}
+
+.product-card input[type="number"]::-webkit-outer-spin-button,
+.product-card input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.products-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(165px,1fr));
+  gap:18px;
+  margin:20px 0;
+  padding:10px;
+}
+
+.product-card {
+  background:white;
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 6px 20px rgba(0,109,119,.15);
+  text-align:center;
+  transition:transform 0.2s;
+}
+.product-card:hover { transform:translateY(-4px); }
+
+.product-card img {
+  width:100%;
+  height:170px;
+  object-fit:cover;
+  border-bottom:3px solid var(--turquoise-medium);
+}
+
+.product-info { padding:10px 8px; }
+.product-info h4 { font-size:0.95rem; margin:0 0 4px 0; color:var(--turquoise-dark); font-weight:600; }
+.product-info p { font-size:0.9rem; color:#555; margin:0; }
+
+.stock-info {
+  margin:8px auto 10px;
+  text-align:center;
+  font-size:0.93rem;
+  color:#333;
+  line-height:1.4;
+}
+
+.stock-bar-container {
+  width:92%;
+  height:16px;
+  background:#e8ecef;
+  border-radius:8px;
+  overflow:hidden;
+  margin:8px auto;
+  box-shadow:0 2px 4px rgba(0,0,0,0.1);
+}
+
+.stock-bar {
+  height:100%;
+  transition:width 0.6s ease-in-out;
+  min-width:8px;
+}
+
+.note {
+  text-align:center;
+  font-size:.95rem;
+  color:#444;
+  margin-top:16px;
+}
+.note a {
+  color:var(--turquoise-dark);
+  font-weight:700;
+  text-decoration:none;
+}
+
+button[type="submit"] {
+  width:100%;
+  padding:16px;
+  margin-top:24px;
+  font-size:1.2rem;
+  font-weight:700;
+  background:linear-gradient(90deg,var(--turquoise-medium),var(--turquoise-light));
+  color:#fff;
+  border:none;
+  border-radius:12px;
+  cursor:pointer;
+}
+
+.loading {
+  pointer-events:none;
+  opacity:0.85;
+}
+.loading::after {
+  content:'';
+  display:inline-block;
+  width:1.1em;
+  height:1.1em;
+  margin-left:0.6em;
+  vertical-align:middle;
+  border:3px solid white;
+  border-top-color:transparent;
+  border-radius:50%;
+  animation:spin 1s linear infinite;
+}
+@keyframes spin { to{transform:rotate(360deg);} }
+
+/* Modal */
+#reviewModal {
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.5);
+  z-index:1000;
+  align-items:center;
+  justify-content:center;
+}
+#reviewModal .modal-content {
+  background:white;
+  padding:24px;
+  border-radius:16px;
+  max-width:90%;
+  max-height:85vh;
+  overflow-y:auto;
+  box-shadow:0 10px 30px rgba(0,0,0,0.25);
+  direction:rtl;
+  text-align:right;
+}
+
+/* تحسين الموبايل */
+@media (max-width: 580px) {
+  .products-grid {
+    grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
+    gap: 14px;
+  }
+  .product-card img { height: 148px; }
+  .product-card input[type="number"] {
+    width: 74px;
+    height: 44px;
+    font-size: 1.3rem;
+  }
+  .stock-info { font-size: 0.88rem; }
 }
 </style>
 </head>
 <body>
+
 <div class="container">
-  <div class="header"><img src="logo.png" class="logo-img" alt="العجمي" loading="lazy"></div>
+  <div class="header">
+    <img src="logo.png" class="logo-img" alt="العجمي" loading="lazy">
+  </div>
   <h2>نموذج طلب منتجات</h2>
+  
   <form id="orderForm">
     <div class="form-group">
       <label>المحافظة / المدينة *</label>
-      <input type="text" name="governorate" placeholder="مثال: إسطنبول - قونيا - أنطاليا - غازي عنتاب إلخ" required>
+      <input type="text" name="governorate" placeholder="مثال: إسطنبول - غازي عنتاب" required>
     </div>
     <div class="form-group">
       <label>اسم الزبون *</label>
@@ -78,267 +231,82 @@ button[type="submit"]{width:100%;padding:16px;margin-top:24px;font-size:1.2rem;f
     </div>
     <div class="form-group">
       <label>اختر المنتجات والكميات المطلوبة</label>
-      <div class="products-grid">
-
-        <div class="product-card">
-          <img src="001.jpg" alt="001 عجمي حمص بالطحينة 325غ" loading="lazy">
-          <div class="product-info"><h4>001 عجمي حمص بالطحينة</h4><p>325 غرام</p></div>
-          <input type="number" name="quantity_001" min="0" value="0">
-          <div class="stock-info" data-code="001"></div>
-        </div>
-
-        <div class="product-card">
-          <img src="002.jpg" alt="002 عجمي كريم الثوم 230غ" loading="lazy">
-          <div class="product-info"><h4>002 عجمي كريم الثوم</h4><p>230 غرام</p></div>
-          <input type="number" name="quantity_002" min="0" value="0">
-          <div class="stock-info" data-code="002"></div>
-        </div>
-
-        <div class="product-card">
-          <img src="003.jpg" alt="003 عجمي متبل 230غ" loading="lazy">
-          <div class="product-info"><h4>003 عجمي متبل</h4><p>230 غرام</p></div>
-          <input type="number" name="quantity_003" min="0" value="0">
-          <div class="stock-info" data-code="003"></div>
-        </div>
-
-        <div class="product-card">
-          <img src="004.jpg" alt="004 عجمي حمص 450غ" loading="lazy">
-          <div class="product-info"><h4>004 عجمي حمص</h4><p>450 غرام</p></div>
-          <input type="number" name="quantity_004" min="0" value="0">
-          <div class="stock-info" data-code="004"></div>
-        </div>
-
-        <div class="product-card">
-          <img src="005.jpg" alt="005 عجمي حمص 300غ" loading="lazy">
-          <div class="product-info"><h4>005 عجمي حمص</h4><p>300 غرام</p></div>
-          <input type="number" name="quantity_005" min="0" value="0">
-          <div class="stock-info" data-code="005"></div>
-        </div>
-
-        <div class="product-card">
-          <img src="006.jpg" alt="006 عجمي حمص 225غ" loading="lazy">
-          <div class="product-info"><h4>006 عجمي حمص</h4><p>225 غرام</p></div>
-          <input type="number" name="quantity_006" min="0" value="0">
-          <div class="stock-info" data-code="006"></div>
-        </div>
-
-        <div class="product-card">
-          <img src="007.jpg" alt="007 عجمي كريم الثوم 225غ" loading="lazy">
-          <div class="product-info"><h4>007 عجمي كريم الثوم</h4><p>225 غرام</p></div>
-          <input type="number" name="quantity_007" min="0" value="0">
-          <div class="stock-info" data-code="007"></div>
-        </div>
-
-        <div class="product-card">
-          <img src="008.jpg" alt="008 عجمي متبل 450غ" loading="lazy">
-          <div class="product-info"><h4>008 عجمي متبل</h4><p>450 غرام</p></div>
-          <input type="number" name="quantity_008" min="0" value="0">
-          <div class="stock-info" data-code="008"></div>
-        </div>
-
-        <div class="product-card">
-          <img src="009.jpg" alt="009 عجمي متبل 225غ" loading="lazy">
-          <div class="product-info"><h4>009 عجمي متبل</h4><p>225 غرام</p></div>
-          <input type="number" name="quantity_009" min="0" value="0">
-          <div class="stock-info" data-code="009"></div>
-        </div>
-
-        <div class="product-card">
-          <img src="010.jpg" alt="010 زاد العربي حمص بالطحينة 230غ" loading="lazy">
-          <div class="product-info"><h4>010 زاد العربي حمص بالطحينة</h4><p>230 غرام</p></div>
-          <input type="number" name="quantity_010" min="0" value="0">
-          <div class="stock-info" data-code="010"></div>
-        </div>
-
-        <div class="product-card">
-          <img src="011.jpg" alt="011 زاد العربي كريم الثوم 230غ" loading="lazy">
-          <div class="product-info"><h4>011 زاد العربي كريم الثوم</h4><p>230 غرام</p></div>
-          <input type="number" name="quantity_011" min="0" value="0">
-          <div class="stock-info" data-code="011"></div>
-        </div>
-
-        <div class="product-card">
-          <img src="012.jpg" alt="012 زاد العربي متبل 230غ" loading="lazy">
-          <div class="product-info"><h4>012 زاد العربي متبل</h4><p>230 غرام</p></div>
-          <input type="number" name="quantity_012" min="0" value="0">
-          <div class="stock-info" data-code="012"></div>
-        </div>
-
-        <div class="product-card">
-          <img src="013.jpg" alt="013 الحمصاني حمص 230غ" loading="lazy">
-          <div class="product-info"><h4>013 الحمصاني حمص</h4><p>230 غرام</p></div>
-          <input type="number" name="quantity_013" min="0" value="0">
-          <div class="stock-info" data-code="013"></div>
-        </div>
-
-        <div class="product-card">
-          <img src="014.jpg" alt="014 الحمصاني كريم الثوم 230غ" loading="lazy">
-          <div class="product-info"><h4>014 الحمصاني كريم الثوم</h4><p>230 غرام</p></div>
-          <input type="number" name="quantity_014" min="0" value="0">
-          <div class="stock-info" data-code="014"></div>
-        </div>
-
-        <div class="product-card">
-          <img src="015.jpg" alt="015 الخال حمص 230غ" loading="lazy">
-          <div class="product-info"><h4>015 الخال حمص</h4><p>230 غرام</p></div>
-          <input type="number" name="quantity_015" min="0" value="0">
-          <div class="stock-info" data-code="015"></div>
-        </div>
-
-        <div class="product-card">
-          <img src="016.jpg" alt="016 الخال كريم الثوم 230غ" loading="lazy">
-          <div class="product-info"><h4>016 الخال كريم الثوم</h4><p>230 غرام</p></div>
-          <input type="number" name="quantity_016" min="0" value="0">
-          <div class="stock-info" data-code="016"></div>
-        </div>
-
-        <div class="product-card">
-          <img src="017.jpg" alt="017 الخال متبل 230غ" loading="lazy">
-          <div class="product-info"><h4>017 الخال متبل</h4><p>230 غرام</p></div>
-          <input type="number" name="quantity_017" min="0" value="0">
-          <div class="stock-info" data-code="017"></div>
-        </div>
-
-        <div class="product-card">
-          <img src="018.jpg" alt="018 عجمي حمص بالكيلو" loading="lazy">
-          <div class="product-info"><h4>018 عجمي حمص بالكيلو</h4><p>كيلو غرام</p></div>
-          <input type="number" name="quantity_018" min="0" value="0">
-          <div class="stock-info" data-code="018"></div>
-        </div>
-
-        <div class="product-card">
-          <img src="019.jpg" alt="019 الحمصاني حمص بالكيلو" loading="lazy">
-          <div class="product-info"><h4>019 الحمصاني حمص بالكيلو</h4><p>كيلو غرام</p></div>
-          <input type="number" name="quantity_019" min="0" value="0">
-          <div class="stock-info" data-code="019"></div>
-        </div>
-
-        <div class="product-card">
-          <img src="020.jpg" alt="020 زاد العربي كريم الثوم بالكيلو" loading="lazy">
-          <div class="product-info"><h4>020 زاد العربي كريم الثوم بالكيلو</h4><p>كيلو غرام</p></div>
-          <input type="number" name="quantity_020" min="0" value="0">
-          <div class="stock-info" data-code="020"></div>
-        </div>
-
-        <div class="product-card">
-          <img src="021.jpg" alt="021 الحمصاني كريم الثوم بالكيلو" loading="lazy">
-          <div class="product-info"><h4>021 الحمصاني كريم الثوم بالكيلو</h4><p>كيلو غرام</p></div>
-          <input type="number" name="quantity_021" min="0" value="0">
-          <div class="stock-info" data-code="021"></div>
-        </div>
-
-        <div class="product-card">
-          <img src="022.jpg" alt="022 الخال كريم الثوم بالكيلو" loading="lazy">
-          <div class="product-info"><h4>022 الخال كريم الثوم بالكيلو</h4><p>كيلو غرام</p></div>
-          <input type="number" name="quantity_022" min="0" value="0">
-          <div class="stock-info" data-code="022"></div>
-        </div>
-
-        <div class="product-card">
-          <img src="023.jpg" alt="023 MNZ كريم الثوم بالكيلو" loading="lazy">
-          <div class="product-info"><h4>023 MNZ كريم الثوم بالكيلو</h4><p>كيلو غرام</p></div>
-          <input type="number" name="quantity_023" min="0" value="0">
-          <div class="stock-info" data-code="023"></div>
-        </div>
-
-        <div class="product-card">
-          <img src="024.jpg" alt="024 عجمي متبل بالكيلو" loading="lazy">
-          <div class="product-info"><h4>024 عجمي متبل بالكيلو</h4><p>كيلو غرام</p></div>
-          <input type="number" name="quantity_024" min="0" value="0">
-          <div class="stock-info" data-code="024"></div>
-        </div>
-
-        <div class="product-card">
-          <img src="025.jpg" alt="025 حمص خام أسبتيك 20 كغ" loading="lazy">
-          <div class="product-info"><h4>025 حمص خام أسبتيك</h4><p>20 كغ</p></div>
-          <input type="number" name="quantity_025" min="0" value="0">
-          <div class="stock-info" data-code="025"></div>
-        </div>
-
-        <div class="product-card">
-          <img src="026.jpg" alt="026 2750غ عجمي لبنة" loading="lazy">
-          <div class="product-info"><h4>026 عجمي لبنة</h4><p>2750 غرام</p></div>
-          <input type="number" name="quantity_026" min="0" value="0">
-          <div class="stock-info" data-code="026"></div>
-        </div>
-
-        <div class="product-card">
-          <img src="027.jpg" alt="027 900غ عجمي لبنة" loading="lazy">
-          <div class="product-info"><h4>027 عجمي لبنة</h4><p>900 غرام</p></div>
-          <input type="number" name="quantity_027" min="0" value="0">
-          <div class="stock-info" data-code="027"></div>
-        </div>
-
-        <div class="product-card">
-          <img src="028.jpg" alt="028 أبو عبدو حمص 300غ" loading="lazy">
-          <div class="product-info"><h4>028 أبو عبدو حمص</h4><p>300 غرام</p></div>
-          <input type="number" name="quantity_028" min="0" value="0">
-          <div class="stock-info" data-code="028"></div>
-        </div>
-
-      </div>
+      <div class="products-grid" id="productsGrid"></div>
     </div>
     <div class="form-group">
       <label>ملاحظات</label>
-      <textarea name="notes" placeholder="أي تفاصيل إضافية (مثال: نوع التغليف أو وقت التسليم المفضل)"></textarea>
+      <textarea name="notes" rows="3" placeholder="أي تفاصيل إضافية..."></textarea>
     </div>
     <button type="submit" id="submitBtn">إرسال الطلب</button>
-    <div class="note">في حال وجود استفسار، التواصل عبر واتس: <a href="https://wa.me/905345758221" target="_blank" rel="noopener">00905345758221</a> 💬</div>
+    <div class="note">
+      في حال وجود استفسار، التواصل عبر واتس: 
+      <a href="https://wa.me/905345758221" target="_blank">00905345758221</a>
+    </div>
   </form>
+</div>
 
-  <div id="reviewModal">
-    <div class="modal-content">
-      <h3>مراجعة الطلب قبل الإرسال</h3>
-      <pre id="reviewText"></pre>
-      <div class="question">هل الكمية صحيحة وكاملة؟</div>
-      <div class="buttons">
-        <button class="confirm-btn" id="confirmSend">نعم، أرسل</button>
-        <button class="cancel-btn" id="cancelReview">راجع مرة أخرى</button>
-      </div>
+<!-- Review Modal -->
+<div id="reviewModal">
+  <div class="modal-content">
+    <h3>مراجعة الطلب قبل الإرسال</h3>
+    <pre id="reviewText"></pre>
+    <div style="text-align:center; color:#c62828; font-weight:700; margin:20px 0;">هل الكمية صحيحة وكاملة؟</div>
+    <div style="display:flex; gap:16px; justify-content:center; flex-wrap:wrap;">
+      <button id="confirmSend" style="padding:12px 32px; background:#119da4; color:white; border:none; border-radius:10px; cursor:pointer;">نعم، أرسل</button>
+      <button id="cancelReview" style="padding:12px 32px; background:#e0e0e0; color:#333; border:none; border-radius:10px; cursor:pointer;">راجع مرة أخرى</button>
     </div>
   </div>
 </div>
 
 <script>
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwmkS61TA56ODMQxvRASxW4b_3feZssp6NfTuZdaiJzs4A0T7jV3oZOeKB8thgjSNKwuA/exec";
-const WHATSAPP_NUMBER = "905522221237";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby1GcNzfZXkG_sCffZ-jMkNs-FXV1MRYh1y_fTCG79GwGqTQelYgj0SAiA9GZv5DngO/exec";
+const WHATSAPP_NUMBER = "905345758221";
 
 let stockData = {};
 
-async function loadStock() {
+async function loadProducts() {
   try {
-    const r = await fetch(SCRIPT_URL, {method:"GET", mode:"cors", cache:"no-cache"});
-    if (!r.ok) throw new Error("HTTP " + r.status);
+    const r = await fetch(SCRIPT_URL + "?action=getStock");
     const d = await r.json();
     if (d.success && d.stock) {
       stockData = d.stock;
-      updateStockBars();
+      renderProducts();
     }
   } catch(e) {
-    console.error("فشل تحميل المخزون", e);
+    console.error("فشل الاتصال", e);
   }
 }
 
-function updateStockBars() {
-  document.querySelectorAll('.stock-info').forEach(el => {
-    const code = el.dataset.code;
-    if (!code) return;
-    const item = stockData[code] || {stock:0, target:200};
-    const cur = Number(item.stock) || 0;
-    const tgt = Number(item.target) || 200;
-    const pct = Math.min(Math.max(cur / tgt * 100, 0), 100);
+function renderProducts() {
+  const grid = document.getElementById("productsGrid");
+  grid.innerHTML = "";
+  Object.keys(stockData).forEach(code => {
+    const p = stockData[code];
+    const stock = Number(p.stock) || 0;
+    const target = Number(p.target) || 200;
+    const pct = Math.min(Math.max((stock / target) * 100, 0), 100);
 
     let color, emoji, txt;
-    if      (cur >= tgt * 0.5)  { color='#4CAF50'; emoji='🟢'; txt='متوفر بكثرة'; }
-    else if (cur >= tgt * 0.15) { color='#FF9800'; emoji='🟠'; txt='كمية متوسطة'; }
-    else if (cur > 0)           { color='#F44336'; emoji='🔴'; txt='قليل جدًا';    }
-    else                        { color='#9E9E9E'; emoji='⚪'; txt='نفد حاليًا';    }
+    if (stock >= target * 0.5) { color = '#4CAF50'; emoji = '🟢'; txt = 'متوفر بكثرة'; }
+    else if (stock >= target * 0.15) { color = '#FF9800'; emoji = '🟠'; txt = 'كمية متوسطة'; }
+    else if (stock > 0) { color = '#F44336'; emoji = '🔴'; txt = 'قليل جدًا'; }
+    else { color = '#9E9E9E'; emoji = '⚪'; txt = 'نفد حاليًا'; }
 
-    el.innerHTML = `
-      <div class="stock-bar-container">
-        <div class="stock-bar" style="width:${pct}%;background-color:${color}"></div>
+    grid.innerHTML += `
+      <div class="product-card">
+        <img src="${code}.jpg" alt="${p.name}" loading="lazy">
+        <div class="product-info">
+          <h4>${code} ${p.name}</h4>
+          <p>${p.weight}</p>
+        </div>
+        <input type="number" name="quantity_${code}" min="0" value="0" oninput="this.value = Math.abs(this.value)">
+        <div class="stock-info">
+          <div class="stock-bar-container">
+            <div class="stock-bar" style="width:${pct}%; background-color:${color}"></div>
+          </div>
+          <span class="stock-text">${emoji} ${stock} / ${target} – ${txt}</span>
+        </div>
       </div>
-      <span class="stock-text">${emoji} ${cur} / ${tgt} – ${txt}</span>
     `;
   });
 }
@@ -351,138 +319,87 @@ function getReviewText() {
     const q = Number(card.querySelector('input').value) || 0;
     if (q > 0) {
       count++;
-      const name   = card.querySelector('h4').textContent.trim();
+      const name = card.querySelector('h4').textContent.trim();
       const weight = card.querySelector('p').textContent.trim();
-      txt += `${i}. ${name}\n   الكمية: ${q}  الوزن: ${weight}\n\n`;
+      txt += `${i}. ${name} - ${weight}\n الكمية: ${q}\n\n`;
       i++;
     }
   });
-  if (count > 0) txt += `إجمالي عدد الأصناف المختارة: ${count}`;
-  return txt;
+  if (count > 0) txt += `\nإجمالي الأصناف: ${count}`;
+  return txt || "لا يوجد منتجات مختارة";
 }
 
 function getWhatsAppText() {
-  const now = new Date();
-
-  const days   = ["الأحد","الإثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"];
-  const months = ["كانون الثاني","شباط","آذار","نيسان","أيار","حزيران","تموز","آب","أيلول","تشرين الأول","تشرين الثاني","كانون الأول"];
-
-  const dayName  = days[now.getDay()];
-  const d        = String(now.getDate()).padStart(2,'0');
-  const m        = months[now.getMonth()];
-  const y        = now.getFullYear();
-
-  let h = now.getHours();
-  const min   = String(now.getMinutes()).padStart(2,'0');
-  const ampm  = h >= 12 ? "مساءً" : "صباحاً";
-  h = h % 12 || 12;
-
-  const datetime = `${dayName}, ${d}/${m}/${y} الساعة ${h}:${min} ${ampm}`;
-
-  const gov  = document.querySelector('[name="governorate"]').value.trim();
+  const gov = document.querySelector('[name="governorate"]').value.trim();
   const cust = document.querySelector('[name="customerName"]').value.trim();
   const note = document.querySelector('[name="notes"]').value.trim() || "لا توجد";
-
   let items = "";
   let idx = 1;
-  let count = 0;
-
   document.querySelectorAll('.product-card').forEach(card => {
     const q = Number(card.querySelector('input').value) || 0;
     if (q > 0) {
-      count++;
-      const name   = card.querySelector('h4').textContent.trim();
+      const name = card.querySelector('h4').textContent.trim();
       const weight = card.querySelector('p').textContent.trim();
-      items += `${idx}. ${name}\n   ${weight}\n   الكمية: ${q}\n\n`;
+      items += `${idx}. ${name} - ${weight}\n الكمية: ${q}\n\n`;
       idx++;
     }
   });
-
-  if (count > 0) items += `إجمالي عدد الأصناف المختارة: ${count}`;
-
-  return `🛒 *طلب جديد من نموذج العجمي*
-
-📅 التاريخ والوقت: ${datetime}
-
-📍 المحافظة / المدينة: ${gov}
-
-👤 اسم الزبون: ${cust}
-
-──────────────────────────────
-${items}
-──────────────────────────────
-
-📝 الملاحظات:
-${note}
-
-شكراً لثقتكم 🌟🙏`;
+  return `🛒 *طلب جديد*\n\n📍 المحافظة: ${gov}\n👤 الزبون: ${cust}\n\n${items}📝 الملاحظات: ${note}`;
 }
 
+// الإرسال
 document.getElementById('orderForm').addEventListener('submit', e => {
   e.preventDefault();
-
-  const gov  = document.querySelector('[name="governorate"]').value.trim();
+  const gov = document.querySelector('[name="governorate"]').value.trim();
   const name = document.querySelector('[name="customerName"]').value.trim();
-
   if (!gov || !name) {
-    alert("يرجى تعبئة المحافظة واسم الزبون");
+    alert("يرجى ملء المحافظة واسم الزبون");
     return;
   }
-
-  const txt = getReviewText();
-  if (!txt) {
+  const review = getReviewText();
+  if (review.includes("لا يوجد منتجات")) {
     alert("يجب اختيار منتج واحد على الأقل");
     return;
   }
-
-  document.getElementById('reviewText').textContent = txt;
+  document.getElementById('reviewText').textContent = review;
   document.getElementById('reviewModal').style.display = 'flex';
 });
 
-document.getElementById('confirmSend').onclick = function() {
+document.getElementById('confirmSend').onclick = async function() {
   document.getElementById('reviewModal').style.display = 'none';
-
   const btn = document.getElementById('submitBtn');
   btn.disabled = true;
   btn.classList.add('loading');
-  btn.textContent = 'جاري إرسال الطلب...';
+  btn.textContent = 'جاري الإرسال...';
 
-  fetch(SCRIPT_URL, {
-    method: 'POST',
-    body: new FormData(document.getElementById('orderForm'))
-  })
-  .then(r => {
-    if (!r.ok) throw new Error('HTTP ' + r.status);
-    return r.json();
-  })
-  .then(data => {
-    if (data?.success) {
-      const msg = getWhatsAppText();
-      const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
-      window.open(url, '_blank');
+  try {
+    const formData = new FormData(document.getElementById('orderForm'));
+    const response = await fetch(SCRIPT_URL, { method: 'POST', body: formData });
+    const result = await response.json();
 
-      alert(`تم إرسال الطلب بنجاح!\nرقم الطلب: ${data.orderId || 'غير متوفر'}`);
+    if (result.success) {
+      const waText = getWhatsAppText();
+      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(waText)}`, '_blank');
+      alert(`تم إرسال الطلب بنجاح!\nرقم الطلب: ${result.orderId || 'تم الحفظ'}`);
       document.getElementById('orderForm').reset();
-      loadStock();
+      loadProducts();
     } else {
-      alert(data?.message || "حدث خطأ");
+      alert("حدث خطأ: " + (result.message || "غير معروف"));
     }
-  })
-  .catch(err => {
-    alert("حدث خطأ أثناء الإرسال\n" + err.message);
-  })
-  .finally(() => {
+  } catch(e) {
+    alert("خطأ في الإرسال: " + e.message);
+  } finally {
     btn.disabled = false;
     btn.classList.remove('loading');
     btn.textContent = 'إرسال الطلب';
-  });
+  }
 };
 
 document.getElementById('cancelReview').onclick = () => {
   document.getElementById('reviewModal').style.display = 'none';
 };
 
-window.addEventListener('DOMContentLoaded', loadStock);
+window.addEventListener('DOMContentLoaded', loadProducts);
 </script>
 </body>
 </html>
