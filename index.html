@@ -193,7 +193,6 @@ button[type="submit"] {
     <img src="logo.png" class="logo-img" alt="العجمي" loading="lazy">
   </div>
   <h2>نموذج طلب منتجات</h2>
- 
   <form id="orderForm">
     <div class="form-group">
       <label>المحافظة / المدينة *</label>
@@ -256,7 +255,7 @@ function renderProducts() {
     const stock = Number(p.stock) || 0;
     const target = Number(p.target) || 200;
     const pct = Math.min(Math.max((stock / target) * 100, 0), 100);
-    
+   
     let color, emoji, txt;
     if (stock >= target * 0.5) { color = '#4CAF50'; emoji = '🟢'; txt = 'متوفر بكثرة'; }
     else if (stock >= target * 0.15) { color = '#FF9800'; emoji = '🟠'; txt = 'كمية متوسطة'; }
@@ -300,7 +299,7 @@ function getWhatsAppText(orderId = "") {
   });
 
   let orderText = "";
-  if (orderId) {
+  if (orderId && orderId !== "غير متوفر") {
     orderText = `🔢 *رقم الطلب:* ${orderId}\n`;
   }
 
@@ -315,26 +314,6 @@ ${note}
 ──────────
 ✅ تم الطلب عبر النظام الإلكتروني`;
 }
-
-document.getElementById('orderForm').addEventListener('submit', e => {
-  e.preventDefault();
-  const gov = document.querySelector('[name="governorate"]').value.trim();
-  const name = document.querySelector('[name="customerName"]').value.trim();
-  
-  if (!gov || !name) {
-    alert("يرجى ملء المحافظة واسم الزبون");
-    return;
-  }
-
-  const review = getReviewText();
-  if (review.includes("لا يوجد منتجات")) {
-    alert("يجب اختيار منتج واحد على الأقل");
-    return;
-  }
-
-  document.getElementById('reviewText').textContent = review;
-  document.getElementById('reviewModal').style.display = 'flex';
-});
 
 function getReviewText() {
   let txt = "";
@@ -354,6 +333,24 @@ function getReviewText() {
   return txt || "لا يوجد منتجات مختارة";
 }
 
+document.getElementById('orderForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const gov = document.querySelector('[name="governorate"]').value.trim();
+  const name = document.querySelector('[name="customerName"]').value.trim();
+ 
+  if (!gov || !name) {
+    alert("يرجى ملء المحافظة واسم الزبون");
+    return;
+  }
+  const review = getReviewText();
+  if (review.includes("لا يوجد منتجات")) {
+    alert("يجب اختيار منتج واحد على الأقل");
+    return;
+  }
+  document.getElementById('reviewText').textContent = review;
+  document.getElementById('reviewModal').style.display = 'flex';
+});
+
 document.getElementById('confirmSend').onclick = async function() {
   document.getElementById('reviewModal').style.display = 'none';
   const btn = document.getElementById('submitBtn');
@@ -367,23 +364,22 @@ document.getElementById('confirmSend').onclick = async function() {
     const result = await response.json();
 
     if (result.success) {
-  const orderId = result.orderId || "غير متوفر";
-  const waText = getWhatsAppText(orderId);
-  const encodedText = encodeURIComponent(waText);
-  
-  alert(`✅ تم إرسال الطلب بنجاح!\n\nرقم الطلب: ${orderId}\n\nجاري فتح الواتساب...`);
+      const orderId = result.orderId || "غير متوفر";
+      const waText = getWhatsAppText(orderId);
+      const encodedText = encodeURIComponent(waText);
 
-  const whatsappAppLink = `whatsapp://send?phone=${WHATSAPP_NUMBER}&text=${encodedText}`;
-  const waMeLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedText}`;
+      alert(`✅ تم إرسال الطلب بنجاح!\n\nرقم الطلب: ${orderId}\n\nجاري فتح الواتساب...`);
 
-  window.location.href = whatsappAppLink;
+      const whatsappAppLink = `whatsapp://send?phone=${WHATSAPP_NUMBER}&text=${encodedText}`;
+      const waMeLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedText}`;
 
-  setTimeout(() => {
-    if (document.visibilityState === 'visible') {
-      window.location.href = waMeLink;
-    }
-  }, 800);
-}
+      window.location.href = whatsappAppLink;
+
+      setTimeout(() => {
+        if (document.visibilityState === 'visible') {
+          window.location.href = waMeLink;
+        }
+      }, 800);
     } else {
       alert("حدث خطأ: " + (result.message || "غير معروف"));
     }
