@@ -4,26 +4,47 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>نموذج طلب منتجات العجمي</title>
-
-<!-- Icons -->
+<!-- Icons & Favicon -->
 <link rel="icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="android-chrome-192x192.png">
 
-<!-- Manifest -->
-<!-- الخيار الأفضل -->
-<link rel="manifest" href="/site.webmanifest">
+<!-- Open Graph -->
+<meta property="og:title" content="نموذج طلب منتجات العجمي">
+<meta property="og:description" content="اطلب منتجات العجمي الأصلية بسهولة">
+<meta property="og:image" content="logo.png">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ar_SA">
 
-<!-- Theme Color -->
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="نموذج طلب منتجات العجمي">
+<meta name="twitter:description" content="اطلب منتجات العجمي الأصلية بسهولة">
+<meta name="twitter:image" content="logo.png">
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- PWA -->
+<link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#006d77">
-<meta name="msapplication-TileColor" content="#006d77">
-<!-- PWA Important Meta Tags -->
-<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="طلب العجمي">
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;600;700&display=swap" rel="stylesheet">
 
+<!-- RTL Support (مهم جداً) -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <style>
+    html, body {
+        direction: rtl;
+        text-align: right;
+        font-family: 'Tajawal', system-ui, sans-serif;
+    }
+</style>
+<style>
+  
 :root{
   --turquoise-dark:#006d77;
   --turquoise-medium:#119da4;
