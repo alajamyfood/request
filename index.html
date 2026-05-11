@@ -212,10 +212,7 @@ button[type="submit"] {
       <textarea name="notes" rows="3" placeholder="أي تفاصيل إضافية..."></textarea>
     </div>
     <button type="submit" id="submitBtn">إرسال الطلب</button>
-    <div class="note">بعد الضغط على زر (أرسل الطلب) 👆🏽 الرجاء الانتظار قليلاً حتى يتم الإرسال /
-في حال وجود أي استفسار يرجى التواصل عبر الواتس أب: 
-      <a href="https://wa.me/905345758221" target="_blank">00905345758221</a>
-    </div>
+    <div class="note">بعد الضغط على زر (أرسل الطلب) 👆🏽 الرجاء الانتظار قليلاً</div>
   </form>
 </div>
 
@@ -366,12 +363,23 @@ document.getElementById('confirmSend').onclick = async function() {
 
     if (result.success) {
       const waText = getWhatsAppText();
-      const waLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(waText)}`;
+      const encodedText = encodeURIComponent(waText);
+      
+      alert("✅ تم إرسال الطلب بنجاح!\n\nسيتم فتح الواتساب الآن بنسخة الطلب جاهزة للإرسال");
 
-      alert("✅ تم إرسال الطلب بنجاح!\n\nجاري فتح الواتساب...");
+      // محاولة فتح التطبيق مباشرة
+      const whatsappAppLink = `whatsapp://send?phone=${WHATSAPP_NUMBER}&text=${encodedText}`;
+      const waMeLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedText}`;
 
-      // فتح الواتساب تلقائياً (أفضل طريقة على الموبايل)
-      window.location.href = waLink;
+      // أول محاولة: فتح التطبيق مباشرة
+      window.location.href = whatsappAppLink;
+
+      // إذا ما فتح التطبيق خلال ثانية، نجرب wa.me
+      setTimeout(() => {
+        if (document.visibilityState === 'visible') {
+          window.location.href = waMeLink;
+        }
+      }, 800);
 
     } else {
       alert("حدث خطأ: " + (result.message || "غير معروف"));
