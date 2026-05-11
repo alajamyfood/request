@@ -7,7 +7,6 @@
 <link rel="icon" href="favicon.ico" type="image/x-icon">
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;600;700&display=swap" rel="stylesheet">
 <meta name="theme-color" content="#006d77">
-
 <style>
 :root{
   --turquoise-dark:#006d77;
@@ -18,9 +17,7 @@
   --blur-bg:rgba(255,255,255,0.94);
   --border:#a0d4cf;
 }
-
 * { box-sizing:border-box; margin:0; padding:0; }
-
 body {
   font-family:'Tajawal',sans-serif;
   background:linear-gradient(to bottom,var(--turquoise-dark),var(--turquoise-pale));
@@ -28,7 +25,6 @@ body {
   color:var(--text-dark);
   padding:10px 8px;
 }
-
 .container {
   background:var(--blur-bg);
   backdrop-filter:blur(12px);
@@ -39,15 +35,11 @@ body {
   box-shadow:0 10px 35px rgba(0,109,119,.25);
   border:1px solid rgba(131,197,190,0.3);
 }
-
 .header { text-align:center; margin-bottom:24px; }
 .logo-img { max-width:320px; width:100%; margin:auto; display:block; }
-
 h2 { text-align:center; color:var(--turquoise-dark); margin-bottom:24px; font-size:1.9rem; }
-
 .form-group { margin-bottom:28px; }
 label { display:block; margin-bottom:10px; font-weight:600; font-size:1.1rem; }
-
 input[type="text"], textarea {
   width:100%;
   padding:14px;
@@ -55,8 +47,6 @@ input[type="text"], textarea {
   border-radius:10px;
   font-size:1.05rem;
 }
-
-/* تحسين خانة الكمية */
 .product-card input[type="number"] {
   width: 82px;
   height: 48px;
@@ -71,13 +61,11 @@ input[type="text"], textarea {
   color: var(--turquoise-dark);
   -moz-appearance: textfield;
 }
-
 .product-card input[type="number"]::-webkit-outer-spin-button,
 .product-card input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-
 .products-grid {
   display:grid;
   grid-template-columns:repeat(auto-fill,minmax(165px,1fr));
@@ -85,7 +73,6 @@ input[type="text"], textarea {
   margin:20px 0;
   padding:10px;
 }
-
 .product-card {
   background:white;
   border-radius:16px;
@@ -95,18 +82,15 @@ input[type="text"], textarea {
   transition:transform 0.2s;
 }
 .product-card:hover { transform:translateY(-4px); }
-
 .product-card img {
   width:100%;
   height:170px;
   object-fit:cover;
   border-bottom:3px solid var(--turquoise-medium);
 }
-
 .product-info { padding:10px 8px; }
 .product-info h4 { font-size:0.95rem; margin:0 0 4px 0; color:var(--turquoise-dark); font-weight:600; }
 .product-info p { font-size:0.9rem; color:#555; margin:0; }
-
 .stock-info {
   margin:8px auto 10px;
   text-align:center;
@@ -114,7 +98,6 @@ input[type="text"], textarea {
   color:#333;
   line-height:1.4;
 }
-
 .stock-bar-container {
   width:92%;
   height:16px;
@@ -124,13 +107,11 @@ input[type="text"], textarea {
   margin:8px auto;
   box-shadow:0 2px 4px rgba(0,0,0,0.1);
 }
-
 .stock-bar {
   height:100%;
   transition:width 0.6s ease-in-out;
   min-width:8px;
 }
-
 .note {
   text-align:center;
   font-size:.95rem;
@@ -142,7 +123,6 @@ input[type="text"], textarea {
   font-weight:700;
   text-decoration:none;
 }
-
 button[type="submit"] {
   width:100%;
   padding:16px;
@@ -155,7 +135,6 @@ button[type="submit"] {
   border-radius:12px;
   cursor:pointer;
 }
-
 .loading {
   pointer-events:none;
   opacity:0.85;
@@ -173,7 +152,6 @@ button[type="submit"] {
   animation:spin 1s linear infinite;
 }
 @keyframes spin { to{transform:rotate(360deg);} }
-
 /* Modal */
 #reviewModal {
   display:none;
@@ -195,8 +173,6 @@ button[type="submit"] {
   direction:rtl;
   text-align:right;
 }
-
-/* تحسين الموبايل */
 @media (max-width: 580px) {
   .products-grid {
     grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
@@ -208,18 +184,16 @@ button[type="submit"] {
     height: 44px;
     font-size: 1.3rem;
   }
-  .stock-info { font-size: 0.88rem; }
 }
 </style>
 </head>
 <body>
-
 <div class="container">
   <div class="header">
     <img src="logo.png" class="logo-img" alt="العجمي" loading="lazy">
   </div>
   <h2>نموذج طلب منتجات</h2>
-  
+ 
   <form id="orderForm">
     <div class="form-group">
       <label>المحافظة / المدينة *</label>
@@ -239,7 +213,7 @@ button[type="submit"] {
     </div>
     <button type="submit" id="submitBtn">إرسال الطلب</button>
     <div class="note">بعد الضغط على زر (أرسل الطلب) 👆🏽 الرجاء الانتظار قليلاً حتى يتم الإرسال /
-في حال وجود أي استفسار حول عمل البرنامج يرجى التواصل عبر الواتس أب: 📲: 
+في حال وجود أي استفسار يرجى التواصل عبر الواتس أب: 
       <a href="https://wa.me/905345758221" target="_blank">00905345758221</a>
     </div>
   </form>
@@ -285,7 +259,7 @@ function renderProducts() {
     const stock = Number(p.stock) || 0;
     const target = Number(p.target) || 200;
     const pct = Math.min(Math.max((stock / target) * 100, 0), 100);
-
+    
     let color, emoji, txt;
     if (stock >= target * 0.5) { color = '#4CAF50'; emoji = '🟢'; txt = 'متوفر بكثرة'; }
     else if (stock >= target * 0.15) { color = '#FF9800'; emoji = '🟠'; txt = 'كمية متوسطة'; }
@@ -311,6 +285,55 @@ function renderProducts() {
   });
 }
 
+function getWhatsAppText() {
+  const gov = document.querySelector('[name="governorate"]').value.trim();
+  const cust = document.querySelector('[name="customerName"]').value.trim();
+  const note = document.querySelector('[name="notes"]').value.trim() || "لا توجد ملاحظات";
+
+  let items = "";
+  let idx = 1;
+  document.querySelectorAll('.product-card').forEach(card => {
+    const q = Number(card.querySelector('input').value) || 0;
+    if (q > 0) {
+      const name = card.querySelector('h4').textContent.trim();
+      const weight = card.querySelector('p').textContent.trim();
+      items += `${idx}. ${name} - ${weight}\n   الكمية: *${q}*\n\n`;
+      idx++;
+    }
+  });
+
+  return `🛒 *طلب جديد - العجمي*
+
+📍 *المحافظة:* ${gov}
+👤 *اسم الزبون:* ${cust}
+
+${items}📝 *الملاحظات:*
+${note}
+
+────────────────
+✅ تم الطلب عبر النظام الإلكتروني`;
+}
+
+document.getElementById('orderForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const gov = document.querySelector('[name="governorate"]').value.trim();
+  const name = document.querySelector('[name="customerName"]').value.trim();
+  
+  if (!gov || !name) {
+    alert("يرجى ملء المحافظة واسم الزبون");
+    return;
+  }
+
+  const review = getReviewText();
+  if (review.includes("لا يوجد منتجات")) {
+    alert("يجب اختيار منتج واحد على الأقل");
+    return;
+  }
+
+  document.getElementById('reviewText').textContent = review;
+  document.getElementById('reviewModal').style.display = 'flex';
+});
+
 function getReviewText() {
   let txt = "";
   let i = 1;
@@ -329,42 +352,6 @@ function getReviewText() {
   return txt || "لا يوجد منتجات مختارة";
 }
 
-function getWhatsAppText() {
-  const gov = document.querySelector('[name="governorate"]').value.trim();
-  const cust = document.querySelector('[name="customerName"]').value.trim();
-  const note = document.querySelector('[name="notes"]').value.trim() || "لا توجد";
-  let items = "";
-  let idx = 1;
-  document.querySelectorAll('.product-card').forEach(card => {
-    const q = Number(card.querySelector('input').value) || 0;
-    if (q > 0) {
-      const name = card.querySelector('h4').textContent.trim();
-      const weight = card.querySelector('p').textContent.trim();
-      items += `${idx}. ${name} - ${weight}\n الكمية: ${q}\n\n`;
-      idx++;
-    }
-  });
-  return `🛒 *طلب جديد*\n\n📍 المحافظة: ${gov}\n👤 الزبون: ${cust}\n\n${items}📝 الملاحظات: ${note}`;
-}
-
-// الإرسال
-document.getElementById('orderForm').addEventListener('submit', e => {
-  e.preventDefault();
-  const gov = document.querySelector('[name="governorate"]').value.trim();
-  const name = document.querySelector('[name="customerName"]').value.trim();
-  if (!gov || !name) {
-    alert("يرجى ملء المحافظة واسم الزبون");
-    return;
-  }
-  const review = getReviewText();
-  if (review.includes("لا يوجد منتجات")) {
-    alert("يجب اختيار منتج واحد على الأقل");
-    return;
-  }
-  document.getElementById('reviewText').textContent = review;
-  document.getElementById('reviewModal').style.display = 'flex';
-});
-
 document.getElementById('confirmSend').onclick = async function() {
   document.getElementById('reviewModal').style.display = 'none';
   const btn = document.getElementById('submitBtn');
@@ -379,10 +366,13 @@ document.getElementById('confirmSend').onclick = async function() {
 
     if (result.success) {
       const waText = getWhatsAppText();
-      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(waText)}`, '_blank');
-      alert(`تم إرسال الطلب بنجاح!\nرقم الطلب: ${result.orderId || 'تم الحفظ'}`);
-      document.getElementById('orderForm').reset();
-      loadProducts();
+      const waLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(waText)}`;
+
+      alert("✅ تم إرسال الطلب بنجاح!\n\nجاري فتح الواتساب...");
+
+      // فتح الواتساب تلقائياً (أفضل طريقة على الموبايل)
+      window.location.href = waLink;
+
     } else {
       alert("حدث خطأ: " + (result.message || "غير معروف"));
     }
