@@ -282,7 +282,7 @@ function renderProducts() {
   });
 }
 
-function getWhatsAppText() {
+function getWhatsAppText(orderId = "") {
   const gov = document.querySelector('[name="governorate"]').value.trim();
   const cust = document.querySelector('[name="customerName"]').value.trim();
   const note = document.querySelector('[name="notes"]').value.trim() || "لا توجد ملاحظات";
@@ -299,15 +299,20 @@ function getWhatsAppText() {
     }
   });
 
+  let orderText = "";
+  if (orderId) {
+    orderText = `🔢 *رقم الطلب:* ${orderId}\n`;
+  }
+
   return `🛒 *طلب جديد - العجمي*
 
-📍 *المحافظة:* ${gov}
+${orderText}📍 *المحافظة:* ${gov}
 👤 *اسم الزبون:* ${cust}
 
 ${items}📝 *الملاحظات:*
 ${note}
 
-────────────────
+──────────
 ✅ تم الطلب عبر النظام الإلكتروني`;
 }
 
@@ -362,25 +367,23 @@ document.getElementById('confirmSend').onclick = async function() {
     const result = await response.json();
 
     if (result.success) {
-      const waText = getWhatsAppText();
-      const encodedText = encodeURIComponent(waText);
-      
-      alert("✅ تم إرسال الطلب بنجاح!\n\nسيتم فتح الواتساب الآن بنسخة الطلب جاهزة للإرسال");
+  const orderId = result.orderId || "غير متوفر";
+  const waText = getWhatsAppText(orderId);
+  const encodedText = encodeURIComponent(waText);
+  
+  alert(`✅ تم إرسال الطلب بنجاح!\n\nرقم الطلب: ${orderId}\n\nجاري فتح الواتساب...`);
 
-      // محاولة فتح التطبيق مباشرة
-      const whatsappAppLink = `whatsapp://send?phone=${WHATSAPP_NUMBER}&text=${encodedText}`;
-      const waMeLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedText}`;
+  const whatsappAppLink = `whatsapp://send?phone=${WHATSAPP_NUMBER}&text=${encodedText}`;
+  const waMeLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedText}`;
 
-      // أول محاولة: فتح التطبيق مباشرة
-      window.location.href = whatsappAppLink;
+  window.location.href = whatsappAppLink;
 
-      // إذا ما فتح التطبيق خلال ثانية، نجرب wa.me
-      setTimeout(() => {
-        if (document.visibilityState === 'visible') {
-          window.location.href = waMeLink;
-        }
-      }, 800);
-
+  setTimeout(() => {
+    if (document.visibilityState === 'visible') {
+      window.location.href = waMeLink;
+    }
+  }, 800);
+}
     } else {
       alert("حدث خطأ: " + (result.message || "غير معروف"));
     }
