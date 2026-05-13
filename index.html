@@ -1,90 +1,91 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>نموذج طلب منتجات العجمي</title>
-<!-- Icons & Favicon -->
-<link rel="icon" href="favicon.ico" type="image/x-icon">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="192x192" href="android-chrome-192x192.png">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <title>نموذج طلب منتجات العجمي</title>
+    
+    <!-- Icons & Favicon -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="android-chrome-192x192.png">
 
-<!-- Open Graph -->
-<meta property="og:title" content="نموذج طلب منتجات العجمي">
-<meta property="og:description" content="اطلب منتجات العجمي الأصلية بسهولة">
-<meta property="og:image" content="logo.png">
-<meta property="og:type" content="website">
-<meta property="og:locale" content="ar_SA">
+    <!-- Open Graph -->
+    <meta property="og:title" content="نموذج طلب منتجات العجمي">
+    <meta property="og:description" content="اطلب منتجات العجمي الأصلية بسهولة">
+    <meta property="og:image" content="logo.png">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="ar_SA">
 
-<!-- Twitter -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="نموذج طلب منتجات العجمي">
-<meta name="twitter:description" content="اطلب منتجات العجمي الأصلية بسهولة">
-<meta name="twitter:image" content="logo.png">
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="نموذج طلب منتجات العجمي">
+    <meta name="twitter:description" content="اطلب منتجات العجمي الأصلية بسهولة">
+    <meta name="twitter:image" content="logo.png">
 
-<!-- Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-<!-- PWA -->
-<!-- ===== Inline PWA Manifest ===== -->
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    const manifest = {
-        "name": "نموذج طلب منتجات العجمي",
-        "short_name": "طلب العجمي",
-        "description": "اطلب منتجات العجمي الأصلية بسهولة",
-        "id": "ajami-order-app",
-        "start_url": "/?utm_source=pwa",
-        "scope": "/",
-        "display": "standalone",
-        "background_color": "#006d77",
-        "theme_color": "#006d77",
-        "orientation": "portrait-primary",
-        "lang": "ar",
-        "dir": "rtl",
-        "icons": [
-            {
-                "src": "web-app-manifest-192x192.png",
-                "sizes": "192x192",
-                "type": "image/png",
-                "purpose": "any maskable"
-            },
-            {
-                "src": "web-app-manifest-512x512.png",
-                "sizes": "512x512",
-                "type": "image/png",
-                "purpose": "any maskable"
-            }
-        ],
-        "categories": ["shopping", "business"]
-    };
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#006d77">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="طلب العجمي">
 
-    const stringManifest = JSON.stringify(manifest);
-    const blob = new Blob([stringManifest], { type: "application/json" });
-    const manifestURL = URL.createObjectURL(blob);
+    <!-- ===== Inline PWA Manifest ===== -->
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const manifest = {
+            "name": "نموذج طلب منتجات العجمي",
+            "short_name": "طلب العجمي",
+            "description": "اطلب منتجات العجمي الأصلية بسهولة",
+            "id": "ajami-order-app",
+            "start_url": "/?utm_source=pwa",
+            "scope": "/",
+            "display": "standalone",
+            "background_color": "#006d77",
+            "theme_color": "#006d77",
+            "orientation": "portrait-primary",
+            "lang": "ar",
+            "dir": "rtl",
+            "icons": [
+                {
+                    "src": "web-app-manifest-192x192.png",
+                    "sizes": "192x192",
+                    "type": "image/png",
+                    "purpose": "any maskable"
+                },
+                {
+                    "src": "web-app-manifest-512x512.png",
+                    "sizes": "512x512",
+                    "type": "image/png",
+                    "purpose": "any maskable"
+                }
+            ],
+            "categories": ["shopping", "business"]
+        };
 
-    const link = document.createElement("link");
-    link.setAttribute("rel", "manifest");
-    link.setAttribute("href", manifestURL);
-    document.head.appendChild(link);
-});
-</script>
-<meta name="theme-color" content="#006d77">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="طلب العجمي">
+        const stringManifest = JSON.stringify(manifest);
+        const blob = new Blob([stringManifest], { type: "application/json" });
+        const manifestURL = URL.createObjectURL(blob);
 
-<!-- RTL Support (مهم جداً) -->
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<style>
+        const link = document.createElement("link");
+        link.setAttribute("rel", "manifest");
+        link.setAttribute("href", manifestURL);
+        document.head.appendChild(link);
+    });
+    </script>
+
+    <style>
     html, body {
         direction: rtl;
         text-align: right;
         font-family: 'Tajawal', system-ui, sans-serif;
     }
-</style>
+    </style>
 <style>
   
 :root{
