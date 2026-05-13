@@ -28,7 +28,49 @@
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <!-- PWA -->
-<link rel="manifest" href="manifest.webmanifest">
+<!-- ===== Inline PWA Manifest ===== -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const manifest = {
+        "name": "نموذج طلب منتجات العجمي",
+        "short_name": "طلب العجمي",
+        "description": "اطلب منتجات العجمي الأصلية بسهولة",
+        "id": "ajami-order-app",
+        "start_url": "/?utm_source=pwa",
+        "scope": "/",
+        "display": "standalone",
+        "background_color": "#006d77",
+        "theme_color": "#006d77",
+        "orientation": "portrait-primary",
+        "lang": "ar",
+        "dir": "rtl",
+        "icons": [
+            {
+                "src": "web-app-manifest-192x192.png",
+                "sizes": "192x192",
+                "type": "image/png",
+                "purpose": "any maskable"
+            },
+            {
+                "src": "web-app-manifest-512x512.png",
+                "sizes": "512x512",
+                "type": "image/png",
+                "purpose": "any maskable"
+            }
+        ],
+        "categories": ["shopping", "business"]
+    };
+
+    const stringManifest = JSON.stringify(manifest);
+    const blob = new Blob([stringManifest], { type: "application/json" });
+    const manifestURL = URL.createObjectURL(blob);
+
+    const link = document.createElement("link");
+    link.setAttribute("rel", "manifest");
+    link.setAttribute("href", manifestURL);
+    document.head.appendChild(link);
+});
+</script>
 <meta name="theme-color" content="#006d77">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
