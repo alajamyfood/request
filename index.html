@@ -79,193 +79,220 @@
     });
     </script>
 
+    <!-- CSS Styles (مدموجة في ستايل واحد) -->
     <style>
-    html, body {
-        direction: rtl;
-        text-align: right;
-        font-family: 'Tajawal', system-ui, sans-serif;
-    }
+        html, body {
+            direction: rtl;
+            text-align: right;
+            font-family: 'Tajawal', system-ui, sans-serif;
+        }
+
+        :root{
+          --turquoise-dark:#006d77;
+          --turquoise-medium:#119da4;
+          --turquoise-light:#83c5be;
+          --turquoise-pale:#e0f7f4;
+          --text-dark:#0d1f1f;
+          --blur-bg:rgba(255,255,255,0.94);
+          --border:#a0d4cf;
+        }
+        
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+        }
+        
+        body {
+          font-family:'Tajawal',sans-serif;
+          background:linear-gradient(to bottom,var(--turquoise-dark),var(--turquoise-pale));
+          background-attachment:fixed;
+          color:var(--text-dark);
+          padding:10px 8px;
+        }
+        
+        .container {
+          background:var(--blur-bg);
+          backdrop-filter:blur(12px);
+          border-radius:18px;
+          padding:24px 20px;
+          max-width:850px;
+          margin:20px auto;
+          box-shadow:0 10px 35px rgba(0,109,119,.25);
+          border:1px solid rgba(131,197,190,0.3);
+        }
+        
+        .header { text-align:center; margin-bottom:24px; }
+        .logo-img { max-width:320px; width:100%; margin:auto; display:block; }
+        h2 { text-align:center; color:var(--turquoise-dark); margin-bottom:24px; font-size:1.9rem; }
+        .form-group { margin-bottom:28px; }
+        label { display:block; margin-bottom:10px; font-weight:600; font-size:1.1rem; }
+        
+        input[type="text"], textarea {
+          width:100%;
+          padding:14px;
+          border:1px solid var(--border);
+          border-radius:10px;
+          font-size:1.05rem;
+        }
+        
+        .product-card input[type="number"] {
+          width: 82px;
+          height: 48px;
+          margin: 10px auto 12px;
+          display: block;
+          font-size: 1.45rem;
+          font-weight: 700;
+          text-align: center;
+          border: 2.5px solid var(--turquoise-medium);
+          border-radius: 12px;
+          background: white;
+          color: var(--turquoise-dark);
+          -moz-appearance: textfield;
+        }
+        
+        .product-card input[type="number"]::-webkit-outer-spin-button,
+        .product-card input[type="number"]::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+        
+        .products-grid {
+          display:grid;
+          grid-template-columns:repeat(auto-fill,minmax(165px,1fr));
+          gap:18px;
+          margin:20px 0;
+          padding:10px;
+        }
+        
+        .product-card {
+          background:white;
+          border-radius:16px;
+          overflow:hidden;
+          box-shadow:0 6px 20px rgba(0,109,119,.15);
+          text-align:center;
+          transition:transform 0.2s;
+        }
+        
+        .product-card:hover { transform:translateY(-4px); }
+        
+        .product-card img {
+          width:100%;
+          height:170px;
+          object-fit:cover;
+          border-bottom:3px solid var(--turquoise-medium);
+        }
+        
+        .product-info { padding:10px 8px; }
+        .product-info h4 { font-size:0.95rem; margin:0 0 4px 0; color:var(--turquoise-dark); font-weight:600; }
+        .product-info p { font-size:0.9rem; color:#555; margin:0; }
+        
+        .stock-info {
+          margin:8px auto 10px;
+          text-align:center;
+          font-size:0.93rem;
+          color:#333;
+          line-height:1.4;
+        }
+        
+        .stock-bar-container {
+          width:92%;
+          height:16px;
+          background:#e8ecef;
+          border-radius:8px;
+          overflow:hidden;
+          margin:8px auto;
+          box-shadow:0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .stock-bar {
+          height:100%;
+          transition:width 0.6s ease-in-out;
+          min-width:8px;
+        }
+        
+        .note {
+          text-align:center;
+          font-size:.95rem;
+          color:#444;
+          margin-top:16px;
+        }
+        
+        .note a {
+          color:var(--turquoise-dark);
+          font-weight:700;
+          text-decoration:none;
+        }
+        
+        button[type="submit"] {
+          width:100%;
+          padding:16px;
+          margin-top:24px;
+          font-size:1.2rem;
+          font-weight:700;
+          background:linear-gradient(90deg,var(--turquoise-medium),var(--turquoise-light));
+          color:#fff;
+          border:none;
+          border-radius:12px;
+          cursor:pointer;
+        }
+        
+        .loading {
+          pointer-events:none;
+          opacity:0.85;
+        }
+        
+        .loading::after {
+          content:'';
+          display:inline-block;
+          width:1.1em;
+          height:1.1em;
+          margin-left:0.6em;
+          vertical-align:middle;
+          border:3px solid white;
+          border-top-color:transparent;
+          border-radius:50%;
+          animation:spin 1s linear infinite;
+        }
+        
+        @keyframes spin { to{transform:rotate(360deg);} }
+        
+        /* Modal */
+        #reviewModal {
+          display:none;
+          position:fixed;
+          inset:0;
+          background:rgba(0,0,0,0.5);
+          z-index:1000;
+          align-items:center;
+          justify-content:center;
+        }
+        
+        #reviewModal .modal-content {
+          background:white;
+          padding:24px;
+          border-radius:16px;
+          max-width:90%;
+          max-height:85vh;
+          overflow-y:auto;
+          box-shadow:0 10px 30px rgba(0,0,0,0.25);
+          direction:rtl;
+          text-align:right;
+        }
+        
+        @media (max-width: 580px) {
+          .products-grid {
+            grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
+            gap: 14px;
+          }
+          .product-card img { height: 148px; }
+          .product-card input[type="number"] {
+            width: 74px;
+            height: 44px;
+            font-size: 1.3rem;
+          }
+        }
     </style>
-<style>
-  
-:root{
-  --turquoise-dark:#006d77;
-  --turquoise-medium:#119da4;
-  --turquoise-light:#83c5be;
-  --turquoise-pale:#e0f7f4;
-  --text-dark:#0d1f1f;
-  --blur-bg:rgba(255,255,255,0.94);
-  --border:#a0d4cf;
-}
-* { box-sizing:border-box; margin:0; padding:0; }
-body {
-  font-family:'Tajawal',sans-serif;
-  background:linear-gradient(to bottom,var(--turquoise-dark),var(--turquoise-pale));
-  background-attachment:fixed;
-  color:var(--text-dark);
-  padding:10px 8px;
-}
-.container {
-  background:var(--blur-bg);
-  backdrop-filter:blur(12px);
-  border-radius:18px;
-  padding:24px 20px;
-  max-width:850px;
-  margin:20px auto;
-  box-shadow:0 10px 35px rgba(0,109,119,.25);
-  border:1px solid rgba(131,197,190,0.3);
-}
-.header { text-align:center; margin-bottom:24px; }
-.logo-img { max-width:320px; width:100%; margin:auto; display:block; }
-h2 { text-align:center; color:var(--turquoise-dark); margin-bottom:24px; font-size:1.9rem; }
-.form-group { margin-bottom:28px; }
-label { display:block; margin-bottom:10px; font-weight:600; font-size:1.1rem; }
-input[type="text"], textarea {
-  width:100%;
-  padding:14px;
-  border:1px solid var(--border);
-  border-radius:10px;
-  font-size:1.05rem;
-}
-.product-card input[type="number"] {
-  width: 82px;
-  height: 48px;
-  margin: 10px auto 12px;
-  display: block;
-  font-size: 1.45rem;
-  font-weight: 700;
-  text-align: center;
-  border: 2.5px solid var(--turquoise-medium);
-  border-radius: 12px;
-  background: white;
-  color: var(--turquoise-dark);
-  -moz-appearance: textfield;
-}
-.product-card input[type="number"]::-webkit-outer-spin-button,
-.product-card input[type="number"]::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-.products-grid {
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(165px,1fr));
-  gap:18px;
-  margin:20px 0;
-  padding:10px;
-}
-.product-card {
-  background:white;
-  border-radius:16px;
-  overflow:hidden;
-  box-shadow:0 6px 20px rgba(0,109,119,.15);
-  text-align:center;
-  transition:transform 0.2s;
-}
-.product-card:hover { transform:translateY(-4px); }
-.product-card img {
-  width:100%;
-  height:170px;
-  object-fit:cover;
-  border-bottom:3px solid var(--turquoise-medium);
-}
-.product-info { padding:10px 8px; }
-.product-info h4 { font-size:0.95rem; margin:0 0 4px 0; color:var(--turquoise-dark); font-weight:600; }
-.product-info p { font-size:0.9rem; color:#555; margin:0; }
-.stock-info {
-  margin:8px auto 10px;
-  text-align:center;
-  font-size:0.93rem;
-  color:#333;
-  line-height:1.4;
-}
-.stock-bar-container {
-  width:92%;
-  height:16px;
-  background:#e8ecef;
-  border-radius:8px;
-  overflow:hidden;
-  margin:8px auto;
-  box-shadow:0 2px 4px rgba(0,0,0,0.1);
-}
-.stock-bar {
-  height:100%;
-  transition:width 0.6s ease-in-out;
-  min-width:8px;
-}
-.note {
-  text-align:center;
-  font-size:.95rem;
-  color:#444;
-  margin-top:16px;
-}
-.note a {
-  color:var(--turquoise-dark);
-  font-weight:700;
-  text-decoration:none;
-}
-button[type="submit"] {
-  width:100%;
-  padding:16px;
-  margin-top:24px;
-  font-size:1.2rem;
-  font-weight:700;
-  background:linear-gradient(90deg,var(--turquoise-medium),var(--turquoise-light));
-  color:#fff;
-  border:none;
-  border-radius:12px;
-  cursor:pointer;
-}
-.loading {
-  pointer-events:none;
-  opacity:0.85;
-}
-.loading::after {
-  content:'';
-  display:inline-block;
-  width:1.1em;
-  height:1.1em;
-  margin-left:0.6em;
-  vertical-align:middle;
-  border:3px solid white;
-  border-top-color:transparent;
-  border-radius:50%;
-  animation:spin 1s linear infinite;
-}
-@keyframes spin { to{transform:rotate(360deg);} }
-/* Modal */
-#reviewModal {
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.5);
-  z-index:1000;
-  align-items:center;
-  justify-content:center;
-}
-#reviewModal .modal-content {
-  background:white;
-  padding:24px;
-  border-radius:16px;
-  max-width:90%;
-  max-height:85vh;
-  overflow-y:auto;
-  box-shadow:0 10px 30px rgba(0,0,0,0.25);
-  direction:rtl;
-  text-align:right;
-}
-@media (max-width: 580px) {
-  .products-grid {
-    grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
-    gap: 14px;
-  }
-  .product-card img { height: 148px; }
-  .product-card input[type="number"] {
-    width: 74px;
-    height: 44px;
-    font-size: 1.3rem;
-  }
-}
-</style>
 </head>
 <body>
 <div class="container">
@@ -293,11 +320,12 @@ button[type="submit"] {
         <button type="submit" id="submitBtn">إرسال الطلب</button>
     <div class="note">
       بعد الضغط على زر (أرسل الطلب) 👆🏽 الرجاء الانتظار قليلاً حتى يتم الإرسال<br><br>
-      في حال وجود أي استفسار حول عمل البرنامج يرجى التواصل عبر الواتس أب: 📲 
+      في حال وجود أي استفسار حول عمل البرنامج يرجى التواصل عبر الواتس أب: 📲
       <a href="https://wa.me/905345758221" target="_blank">00905345758221</a>
     </div>
   </form>
-</div> 
+</div>
+
 <div id="reviewModal">
   <div class="modal-content">
     <h3>مراجعة الطلب قبل الإرسال</h3>
@@ -313,7 +341,6 @@ button[type="submit"] {
 <script>
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby1GcNzfZXkG_sCffZ-jMkNs-FXV1MRYh1y_fTCG79GwGqTQelYgj0SAiA9GZv5DngO/exec";
 const WHATSAPP_NUMBER = "905345758221";
-
 let stockData = {};
 
 async function loadProducts() {
@@ -337,13 +364,13 @@ function renderProducts() {
     const stock = Number(p.stock) || 0;
     const target = Number(p.target) || 200;
     const pct = Math.min(Math.max((stock / target) * 100, 0), 100);
-   
+  
     let color, emoji, txt;
     if (stock >= target * 0.5) { color = '#4CAF50'; emoji = '🟢'; txt = 'متوفر بكثرة'; }
     else if (stock >= target * 0.15) { color = '#FF9800'; emoji = '🟠'; txt = 'كمية متوسطة'; }
     else if (stock > 0) { color = '#F44336'; emoji = '🔴'; txt = 'قليل جدًا'; }
     else { color = '#9E9E9E'; emoji = '⚪'; txt = 'نفد حاليًا'; }
-
+    
     grid.innerHTML += `
       <div class="product-card">
         <img src="${code}.jpg" alt="${p.name}" loading="lazy">
@@ -367,7 +394,6 @@ function getWhatsAppText(orderId = "") {
   const gov = document.querySelector('[name="governorate"]').value.trim();
   const cust = document.querySelector('[name="customerName"]').value.trim();
   const note = document.querySelector('[name="notes"]').value.trim() || "لا توجد ملاحظات";
-
   let items = "";
   let idx = 1;
   document.querySelectorAll('.product-card').forEach(card => {
@@ -375,24 +401,19 @@ function getWhatsAppText(orderId = "") {
     if (q > 0) {
       const name = card.querySelector('h4').textContent.trim();
       const weight = card.querySelector('p').textContent.trim();
-      items += `${idx}. ${name} - ${weight}\n   الكمية: *${q}*\n\n`;
+      items += `${idx}. ${name} - ${weight}\n الكمية: *${q}*\n\n`;
       idx++;
     }
   });
-
   let orderText = "";
   if (orderId && orderId !== "غير متوفر") {
     orderText = `🔢 *رقم الطلب:* ${orderId}\n`;
   }
-
   return `🛒 *طلب جديد - العجمي*
-
 ${orderText}📍 *المحافظة:* ${gov}
 👤 *اسم الزبون:* ${cust}
-
 ${items}📝 *الملاحظات:*
 ${note}
-
 ──────────
 ✅ تم الطلب عبر النظام الإلكتروني`;
 }
@@ -419,7 +440,6 @@ document.getElementById('orderForm').addEventListener('submit', e => {
   e.preventDefault();
   const gov = document.querySelector('[name="governorate"]').value.trim();
   const name = document.querySelector('[name="customerName"]').value.trim();
- 
   if (!gov || !name) {
     alert("يرجى ملء المحافظة واسم الزبون");
     return;
@@ -439,24 +459,23 @@ document.getElementById('confirmSend').onclick = async function() {
   btn.disabled = true;
   btn.classList.add('loading');
   btn.textContent = 'جاري الإرسال...';
-
+  
   try {
     const formData = new FormData(document.getElementById('orderForm'));
     const response = await fetch(SCRIPT_URL, { method: 'POST', body: formData });
     const result = await response.json();
-
+    
     if (result.success) {
       const orderId = result.orderId || "غير متوفر";
       const waText = getWhatsAppText(orderId);
       const encodedText = encodeURIComponent(waText);
-
       alert(`✅ تم إرسال الطلب بنجاح!\n\nرقم الطلب: ${orderId}\n\nجاري فتح الواتساب...`);
-
+      
       const whatsappAppLink = `whatsapp://send?phone=${WHATSAPP_NUMBER}&text=${encodedText}`;
       const waMeLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedText}`;
-
+      
       window.location.href = whatsappAppLink;
-
+      
       setTimeout(() => {
         if (document.visibilityState === 'visible') {
           window.location.href = waMeLink;
