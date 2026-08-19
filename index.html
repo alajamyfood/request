@@ -425,7 +425,7 @@ function renderProducts() {
           <h4>${code} ${p.name}</h4>
           <p>${p.weight || ''}</p>
         </div>
-        <input type="number" name="quantity_${code}" min="0" step="1" value="0" oninput="this.value = Math.abs(this.value)">
+        <input type="number" name="quantity_${code}" min="0" step="1" value="" placeholder="0" inputmode="numeric" pattern="[0-9]*">
         <div class="stock-info">
           <div class="stock-bar-container">
             <div class="stock-bar" style="width:${pct}%; background-color:${color}"></div>
