@@ -6,7 +6,7 @@
     
     <title>نموذج طلب منتجات العجمي</title>
     
-        <!-- Icons & Favicon -->
+    <!-- Icons & Favicon -->
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
@@ -80,7 +80,7 @@
     });
     </script>
 
-    <!-- CSS Styles (مدموجة في ستايل واحد) -->
+    <!-- CSS Styles -->
     <style>
         html, body {
             direction: rtl;
@@ -318,7 +318,7 @@
       <label>ملاحظات</label>
       <textarea name="notes" rows="3" placeholder="أي تفاصيل إضافية..."></textarea>
     </div>
-        <button type="submit" id="submitBtn">إرسال الطلب</button>
+    <button type="submit" id="submitBtn">إرسال الطلب</button>
     <div class="note">
       بعد الضغط على زر (أرسل الطلب) 👆🏽 الرجاء الانتظار قليلاً حتى يتم الإرسال<br><br>
       في حال وجود أي استفسار حول عمل البرنامج يرجى التواصل عبر الواتس أب: 📲
@@ -344,6 +344,48 @@ const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby1GcNzfZXkG_sCffZ-j
 const WHATSAPP_NUMBER = "905345758221";
 let stockData = {};
 
+/* ===== دالة تحويل الوزن إلى كيلو جرام ===== */
+function parseWeightToKg(weightText) {
+  if (!weightText || typeof weightText !== 'string') return 0;
+
+  const s = weightText.trim().replace(/\s+/g, ' ');
+  const clean = s.replace(/\s/g, '').toLowerCase();
+
+  // فقط "كغ" أو "كيلو" أو "ك.غ" أو "kg" → 1 كيلو
+  if (clean === 'كغ' || clean === 'كيلو' || clean === 'ك.غ' || clean === 'ك.غ.' || clean === 'kg') {
+    return 1;
+  }
+
+  // استخراج الرقم (يدعم الفاصلة والنقطة)
+  const numMatch = s.match(/(\d+[.,]?\d*)/);
+  if (!numMatch) return 0;
+
+  let num = parseFloat(numMatch[1].replace(',', '.'));
+  if (isNaN(num) || num < 0) return 0;
+
+  // تحديد الوحدة
+  const hasGram = /غ|جرام|جرامات|gram|\bg\b/i.test(s);
+  const hasKg   = /كغ|كيلو|ك\.?غ|kg/i.test(s);
+
+  if (hasKg) return num;           // كيلو جرام
+  if (hasGram) return num / 1000;  // غرام → كيلو
+
+  // لو في رقم فقط بدون وحدة → نعتبره غرام (الأكثر شيوعاً عندك)
+  return num / 1000;
+}
+
+/* ===== تنسيق عرض الوزن النهائي ===== */
+function formatTotalWeight(kg) {
+  if (kg <= 0) return "0 كغ";
+  if (kg < 1) {
+    const grams = Math.round(kg * 1000);
+    return grams + " غرام";
+  }
+  // إزالة الأصفار الزائدة في النهاية
+  let str = kg.toFixed(3).replace(/\.?0+$/, '');
+  return str + " كغ";
+}
+
 async function loadProducts() {
   try {
     const r = await fetch(SCRIPT_URL + "?action=getStock");
@@ -360,26 +402,30 @@ async function loadProducts() {
 function renderProducts() {
   const grid = document.getElementById("productsGrid");
   grid.innerHTML = "";
+  
   Object.keys(stockData).forEach(code => {
     const p = stockData[code];
     const stock = Number(p.stock) || 0;
+    
+    // ===== إخفاء المنتجات النافدة (ستوك صفر أو أقل) =====
+    if (stock <= 0) return;
+    
     const target = Number(p.target) || 200;
     const pct = Math.min(Math.max((stock / target) * 100, 0), 100);
   
     let color, emoji, txt;
     if (stock >= target * 0.5) { color = '#4CAF50'; emoji = '🟢'; txt = 'متوفر بكثرة'; }
     else if (stock >= target * 0.15) { color = '#FF9800'; emoji = '🟠'; txt = 'كمية متوسطة'; }
-    else if (stock > 0) { color = '#F44336'; emoji = '🔴'; txt = 'قليل جدًا'; }
-    else { color = '#9E9E9E'; emoji = '⚪'; txt = 'نفد حاليًا'; }
+    else { color = '#F44336'; emoji = '🔴'; txt = 'قليل جدًا'; }
     
     grid.innerHTML += `
       <div class="product-card">
         <img src="${code}.jpg" alt="${p.name}" loading="lazy">
         <div class="product-info">
           <h4>${code} ${p.name}</h4>
-          <p>${p.weight}</p>
+          <p>${p.weight || ''}</p>
         </div>
-        <input type="number" name="quantity_${code}" min="0" value="0" oninput="this.value = Math.abs(this.value)">
+        <input type="number" name="quantity_${code}" min="0" step="1" value="0" oninput="this.value = Math.abs(this.value)">
         <div class="stock-info">
           <div class="stock-bar-container">
             <div class="stock-bar" style="width:${pct}%; background-color:${color}"></div>
@@ -397,25 +443,33 @@ function getWhatsAppText(orderId = "") {
   const note = document.querySelector('[name="notes"]').value.trim() || "لا توجد ملاحظات";
   let items = "";
   let idx = 1;
+  let totalKg = 0;
+
   document.querySelectorAll('.product-card').forEach(card => {
     const q = Number(card.querySelector('input').value) || 0;
     if (q > 0) {
       const name = card.querySelector('h4').textContent.trim();
-      const weight = card.querySelector('p').textContent.trim();
-      items += `${idx}. ${name} - ${weight}\n الكمية: *${q}*\n\n`;
+      const weightText = card.querySelector('p').textContent.trim();
+      const wKg = parseWeightToKg(weightText);
+      totalKg += q * wKg;
+
+      items += `${idx}. ${name} - ${weightText}\n الكمية: *${q}*\n\n`;
       idx++;
     }
   });
+
   let orderText = "";
   if (orderId && orderId !== "غير متوفر") {
     orderText = `🔢 *رقم الطلب:* ${orderId}\n`;
   }
+
   return `🛒 *طلب جديد - العجمي*
 ${orderText}📍 *المحافظة:* ${gov}
 👤 *اسم الزبون:* ${cust}
 ${items}📝 *الملاحظات:*
 ${note}
 ──────────
+⚖️ *الوزن الإجمالي التقريبي:* ${formatTotalWeight(totalKg)}
 ✅ تم الطلب عبر النظام الإلكتروني`;
 }
 
@@ -423,17 +477,26 @@ function getReviewText() {
   let txt = "";
   let i = 1;
   let count = 0;
+  let totalKg = 0;
+
   document.querySelectorAll('.product-card').forEach(card => {
     const q = Number(card.querySelector('input').value) || 0;
     if (q > 0) {
       count++;
       const name = card.querySelector('h4').textContent.trim();
-      const weight = card.querySelector('p').textContent.trim();
-      txt += `${i}. ${name} - ${weight}\n الكمية: ${q}\n\n`;
+      const weightText = card.querySelector('p').textContent.trim();
+      const wKg = parseWeightToKg(weightText);
+      totalKg += q * wKg;
+
+      txt += `${i}. ${name} - ${weightText}\n الكمية: ${q}\n\n`;
       i++;
     }
   });
-  if (count > 0) txt += `\nإجمالي الأصناف: ${count}`;
+
+  if (count > 0) {
+    txt += `\nإجمالي الأصناف: ${count}`;
+    txt += `\n⚖️ الوزن الإجمالي التقريبي: ${formatTotalWeight(totalKg)}`;
+  }
   return txt || "لا يوجد منتجات مختارة";
 }
 
@@ -497,6 +560,13 @@ document.getElementById('confirmSend').onclick = async function() {
 document.getElementById('cancelReview').onclick = () => {
   document.getElementById('reviewModal').style.display = 'none';
 };
+
+// إغلاق المودال بالنقر على الخلفية
+document.getElementById('reviewModal').addEventListener('click', function(e) {
+  if (e.target === this) {
+    this.style.display = 'none';
+  }
+});
 
 window.addEventListener('DOMContentLoaded', loadProducts);
 </script>
